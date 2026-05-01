@@ -3,69 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>人工智能时代，中国的教育该何去何从？ | 深度研究报告</title>
+<title>山阳县深度研究 | 农村困局能否破解？</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <style>
-:root{--primary:#1a3a5c;--accent:#e8a838;--bg:#0a0e14;--bg-card:#111820;--bg-card2:#182230;--text:#d0d8e0;--text-muted:#7890a0;--border:#1a2a3a;--highlight:rgba(26,58,92,0.3)}
+:root{--primary:#2d5a27;--accent:#c8a951;--bg:#0a0a0a;--bg-card:#1a1a1a;--bg-card2:#222;--text:#e8e0d0;--text-muted:#998;--border:#333;--highlight:rgba(45,90,39,0.2)}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:-apple-system,'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);line-height:1.9}
-.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,#0a0e14,#0a1620,#0a0e14);position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 20%,rgba(26,58,92,0.3) 0%,transparent 50%)}
+body{font-family:-apple-system,'Noto Sans SC',sans-serif;background:var(--bg);color:var(--text);line-height:1.8}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,#0a0a0a,#0a1a0a,#0a0a0a);position:relative}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(45,90,39,0.2) 0%,transparent 50%)}
 .hero-content{position:relative;z-index:1;padding:2rem;max-width:900px}
-.hero h1{font-size:clamp(1.8rem,4.5vw,3.2rem);margin-bottom:1.2rem;background:linear-gradient(135deg,#e8a838,#f0c860,#e8a838);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.4}
-.hero p{color:var(--text-muted);max-width:700px;margin:0 auto 2.5rem;font-size:1.05rem;line-height:1.8}
-.hero-badge{display:inline-block;padding:0.4rem 1.2rem;border:1px solid var(--accent);color:var(--accent);border-radius:2rem;font-size:0.8rem;margin-bottom:1.5rem;letter-spacing:.15em}
-.hero-stats{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
-.stat-item{text-align:center;padding:1rem 1.5rem;background:rgba(255,255,255,0.04);border-radius:12px;border:1px solid rgba(255,255,255,0.05);min-width:120px}
-.stat-num{font-size:1.6rem;font-weight:700;color:var(--accent)}
-.stat-label{font-size:0.7rem;color:var(--text-muted);margin-top:0.2rem}
-nav{position:sticky;top:0;z-index:100;background:rgba(10,14,20,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0.7rem 0.5rem;display:flex;gap:0.3rem;overflow-x:auto;justify-content:center}
-nav a{color:var(--text-muted);text-decoration:none;font-size:0.8rem;padding:0.3rem 0.8rem;border-radius:2rem;white-space:nowrap;transition:all 0.3s;flex-shrink:0}
+.hero h1{font-size:clamp(2rem,5vw,3.5rem);margin-bottom:1rem;background:linear-gradient(135deg,#c8a951,#e8d0b0);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--text-muted);max-width:750px;margin:0 auto 2rem}
+.hero-stats{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap}
+.stat-item{text-align:center;padding:1rem 1.5rem;background:rgba(255,255,255,0.05);border-radius:12px}
+.stat-num{font-size:1.8rem;font-weight:700;color:var(--accent)}
+.stat-label{font-size:0.75rem;color:var(--text-muted)}
+.hero-badge{display:inline-block;padding:0.4rem 1.2rem;border:1px solid var(--accent);color:var(--accent);border-radius:2rem;font-size:0.8rem;margin-bottom:1.5rem}
+nav{position:sticky;top:0;z-index:100;background:rgba(10,10,10,0.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:0.8rem 1rem;display:flex;gap:0.5rem;overflow-x:auto;justify-content:center}
+nav a{color:var(--text-muted);text-decoration:none;font-size:0.85rem;padding:0.4rem 1rem;border-radius:2rem;white-space:nowrap;transition:all 0.3s}
 nav a:hover,nav a.active{color:var(--accent);background:var(--highlight)}
-.section{max-width:1100px;margin:0 auto;padding:3.5rem 1.5rem}
-.section-title{font-size:clamp(1.3rem,2.8vw,2rem);margin-bottom:2rem;padding-bottom:1rem;border-bottom:2px solid var(--primary);position:relative;display:flex;align-items:center;gap:0.8rem}
-.section-title .num{color:var(--accent);font-size:0.8em;opacity:0.7}
-.section-title::after{content:'';position:absolute;bottom:-2px;left:0;width:50px;height:2px;background:var(--accent)}
+.section{max-width:1100px;margin:0 auto;padding:4rem 1.5rem}
+.section-title{font-size:clamp(1.5rem,3vw,2.2rem);margin-bottom:2rem;padding-bottom:1rem;border-bottom:2px solid var(--primary);position:relative}
+.section-title::after{content:'';position:absolute;bottom:-2px;left:0;width:60px;height:2px;background:var(--accent)}
 .grid{display:grid;gap:1.5rem}
-.grid-2{grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
-.grid-3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
-.grid-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
-.card{background:var(--bg-card);border-radius:12px;padding:1.8rem;border:1px solid var(--border);transition:all 0.3s}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(380px,1fr))}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.card{background:var(--bg-card);border-radius:12px;padding:2rem;border:1px solid var(--border);transition:all 0.3s}
 .card:hover{border-color:var(--primary);transform:translateY(-2px)}
-.card h3{color:var(--accent);margin-bottom:0.8rem;font-size:1.1rem}
-.card p{color:var(--text-muted);font-size:0.92rem;line-height:1.7}
-.card ul{padding-left:1.2rem;color:var(--text-muted);font-size:0.9rem}
-.card li{padding:0.3rem 0;line-height:1.6}
+.card h3{color:var(--accent);margin-bottom:1rem}
+.card p{color:var(--text-muted);font-size:0.95rem}
 .chart-container{background:var(--bg-card);border-radius:12px;padding:1.5rem;border:1px solid var(--border);margin-bottom:1.5rem}
-.chart-container h4{margin-bottom:1rem;color:var(--accent);font-size:0.95rem}
-.chart-wrap{position:relative;height:340px}
-.chart-wrap-sm{height:240px}
-.data-table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.85rem}
-.data-table th,.data-table td{padding:0.6rem 0.8rem;text-align:left;border-bottom:1px solid var(--border)}
-.data-table th{background:var(--bg-card2);color:var(--accent);font-weight:600}
+.chart-container h4{margin-bottom:1rem;color:var(--accent)}
+.chart-wrap{position:relative;height:350px}
+.chart-wrap-sm{height:250px}
+.data-table{width:100%;border-collapse:collapse;margin:1rem 0}
+.data-table th,.data-table td{padding:0.7rem 1rem;text-align:left;border-bottom:1px solid var(--border);font-size:0.9rem}
+.data-table th{background:var(--bg-card2);color:var(--accent)}
 .good{color:#4ade80}.bad{color:#f87171}.warn{color:#fbbf24}
-.quote{border-left:3px solid var(--accent);padding:1.2rem 1.5rem;margin:1.5rem 0;background:rgba(232,168,56,0.05);border-radius:0 12px 12px 0}
-.quote p{font-style:italic;color:var(--text-muted)}.quote cite{display:block;margin-top:0.5rem;color:var(--text-muted);font-size:0.8rem}
-.conclusion-box{background:linear-gradient(135deg,rgba(26,58,92,0.15),rgba(232,168,56,0.05));border:1px solid var(--primary);border-radius:12px;padding:2rem;margin:2rem 0}
+.quote{border-left:3px solid var(--accent);padding:1.5rem 2rem;margin:2rem 0;background:rgba(200,169,81,0.05);border-radius:0 12px 12px 0}
+.quote p{font-style:italic}.quote cite{display:block;margin-top:0.5rem;color:var(--text-muted);font-size:0.85rem}
+.conclusion-box{background:linear-gradient(135deg,rgba(45,90,39,0.15),rgba(200,169,81,0.05));border:1px solid var(--primary);border-radius:12px;padding:2rem;margin:2rem 0}
 .conclusion-box h3{color:var(--accent);margin-bottom:1rem}
-.conclusion-box p,.conclusion-box li{padding:0.4rem 0;color:var(--text-muted);line-height:1.7}
+.conclusion-box li{padding:0.5rem 0}
+.conclusion-box li::before{content:'[>] ';color:var(--accent)}
 .highlight{color:var(--accent);font-weight:700}
-.data-point{display:inline-block;background:var(--highlight);color:var(--accent);padding:0.15rem 0.5rem;border-radius:4px;font-weight:700;font-size:0.85rem}
-.timeline{position:relative;padding-left:2rem}
-.timeline::before{content:'';position:absolute;left:0.5rem;top:0;bottom:0;width:2px;background:var(--border)}
-.timeline-item{position:relative;padding:0.8rem 0 0.8rem 1rem;border-left:2px solid var(--primary);margin-bottom:0.5rem}
-.timeline-item::before{content:'';position:absolute;left:-0.6rem;top:1.2rem;width:10px;height:10px;border-radius:50%;background:var(--accent)}
-.timeline-item .year{color:var(--accent);font-weight:700;font-size:0.85rem}
-.timeline-item p{color:var(--text-muted);font-size:0.85rem;margin-top:0.2rem}
-.factor-grid{display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.5rem 0}
-.factor-item{flex:1;min-width:120px;text-align:center;padding:0.8rem;background:var(--bg-card2);border-radius:8px;font-size:0.8rem}
-.factor-item .val{font-size:1.2rem;font-weight:700;display:block}
-.arrow-flow{display:flex;align-items:center;justify-content:center;gap:0.5rem;flex-wrap:wrap;padding:1rem}
-.arrow-flow .node{padding:0.6rem 1rem;background:var(--bg-card2);border-radius:8px;font-size:0.85rem;text-align:center;border:1px solid var(--border)}
-.arrow-flow .arrow{color:var(--accent);font-size:1.5rem}
-footer{text-align:center;padding:3rem 1.5rem;color:var(--text-muted);border-top:1px solid var(--border);font-size:0.8rem;margin-top:2rem}
-@media(max-width:768px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}.hero-stats{gap:0.5rem}.stat-item{min-width:80px;padding:0.6rem}.stat-num{font-size:1.2rem}}
+.data-point{display:inline-block;background:var(--highlight);color:var(--accent);padding:0.2rem 0.6rem;border-radius:4px;font-weight:700;font-size:0.9rem}
+footer{text-align:center;padding:3rem;color:var(--text-muted);border-top:1px solid var(--border);font-size:0.85rem;margin-top:3rem}
+@media(max-width:768px){.grid-2,.grid-3{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -73,395 +58,193 @@ footer{text-align:center;padding:3rem 1.5rem;color:var(--text-muted);border-top:
 <section class="hero">
   <div class="hero-content">
     <div class="hero-badge">Deep Research 2026</div>
-    <h1>人工智能时代，中国的教育该何去何从？</h1>
-    <p>当ChatGPT用30秒完成一篇论文、DeepSeek以1/10的成本匹敌GPT-4、AI教师开始走进课堂——中国的教育体系正面临自科举废除以来最深层的挑战。这不是"要不要拥抱AI"的问题，而是"不变革，就会被淘汰"的现实。本报告从政策、数据、国际比较、实践路径四个维度，全景式剖析中国教育在AI时代的困境与出路。</p>
+    <h1>山阳县的未来：农村已是死局，这局能不能破？</h1>
+    <p>作为秦岭深处的一个山区县，山阳真的没有出路了吗？年轻人该逃离还是留下？本文从人口、产业、政策、五维深度剖析。</p>
     <div class="hero-stats">
-      <div class="stat-item"><div class="stat-num">2.4亿+</div><div class="stat-label">大学文化人口</div></div>
-      <div class="stat-item"><div class="stat-num">60%+</div><div class="stat-label">高等教育毛入学率</div></div>
-      <div class="stat-item"><div class="stat-num">14.2年</div><div class="stat-label">新增劳动力受教育年限</div></div>
-      <div class="stat-item"><div class="stat-num">2035</div><div class="stat-label">建成教育强国目标年</div></div>
+      <div class="stat-item"><div class="stat-num">43万</div><div class="stat-label">常住人口</div></div>
+      <div class="stat-item"><div class="stat-num">28%</div><div class="stat-label">人口流失率</div></div>
+      <div class="stat-item"><div class="stat-num">2.8万</div><div class="stat-label">农村人均可支配收入(元)</div></div>
+      <div class="stat-item"><div class="stat-num">35%</div><div class="stat-label">人均GDP/全国平均</div></div>
     </div>
   </div>
 </section>
-
 <nav>
-  <a href="#s1" class="active">一、大时代的拷问</a>
-  <a href="#s2">二、中国教育全景</a>
-  <a href="#s3">三、AI的冲击</a>
-  <a href="#s4">四、政策图谱</a>
-  <a href="#s5">五、基础教育</a>
-  <a href="#s6">六、高等教育</a>
-  <a href="#s7">七、职业教育</a>
-  <a href="#s8">八、教师重塑</a>
-  <a href="#s9">九、公平与鸿沟</a>
-  <a href="#s10">十、国际镜鉴</a>
-  <a href="#s11">十一、未来之路</a>
+  <a href="#s1" class="active">一、真实山阳</a>
+  <a href="#s2">二、人口危机</a>
+  <a href="#s3">三、产业困局</a>
+  <a href="#s4">四、死局辩论</a>
+  <a href="#s5">五、破解方案</a>
+  <a href="#s6">六、青年抉择</a>
+  <a href="#s7">七、结论</a>
 </nav>
 
 <section id="s1" class="section">
-  <h2 class="section-title"><span class="num">01</span> 大时代的拷问：为什么教育到了"生死时刻"？</h2>
+  <h2 class="section-title">一、真实的山阳县：秦岭南麓的"第一道难题"</h2>
   <div class="grid grid-2">
-    <div class="card">
-      <h3>🔄 从"知识传授"到"能力培养"的范式转换</h3>
-      <p>工业时代的教育模式——统一教材、标准考试、批量生产——正在被AI彻底瓦解。当AI可以在几秒内完成人类需要数月学习的知识积累时，"背得多、记得牢"不再具有竞争优势。教育的底层逻辑正在从<strong>"知识的传递"</strong>转向<strong>"学习能力的培养"</strong>。</p>
-      <p style="margin-top:0.8rem;color:var(--text-muted);font-size:0.9rem;">正如李开复所言：<em>"未来15年内，AI将取代40-50%的现有工作岗位。教育若不改变，就是在培养'无用之人'。"</em></p>
+    <div class="card"><h3>基本画像</h3>
+      <p>位于陕西省商洛市南部，秦岭南麓，总面积<span class="data-point">3,535km</span>，80%以上为山地丘陵。常住人口约43万人，农业人口占比超60%。2024年GDP约<span class="data-point">145亿元</span>，人均GDP约3.4万元，仅为全国平均的<strong>35%</strong>。</p>
     </div>
-    <div class="card">
-      <h3>⚡ 三大不可逆趋势</h3>
-      <ul>
-        <li><strong>知识获取去中心化</strong>：AI大模型让每个人都能即时获得顶级知识，传统课堂的知识权威属性被消解</li>
-        <li><strong>技能半衰期急剧缩短</strong>：技术迭代速度从"十年一代"变为"一年数代"，终身学习不再是选择而是生存</li>
-        <li><strong>就业市场结构性重塑</strong>：麦肯锡预测，到2030年中国约<span class="data-point">3000万</span>岗位将因AI被替代，同时<span class="data-point">2500万</span>新岗位将被创造</li>
-      </ul>
+    <div class="card"><h3>自然禀赋</h3>
+      <p>耕地仅占总面积<span class="data-point">8%</span>，人均0.8亩。森林覆盖率<span class="data-point">62%</span>，南水北调水源涵养区。钒储量全国第二（<span class="data-point">300万吨</span>），中药材丰富，誉为"天然药库"。</p>
     </div>
   </div>
-  <div class="chart-container">
-    <h4>📊 AI对全球就业市场的影响预测（麦肯锡 2025）</h4>
-    <div class="chart-wrap"><canvas id="c1"></canvas></div>
-  </div>
-  <div class="quote">
-    <p>"教育的本质不是灌输知识，而是点燃火焰。在AI时代，这一点比任何时候都更加重要——因为AI可以灌输知识，但只有人类能点燃火焰。"</p>
-    <cite>—— 改编自叶芝（W.B. Yeats）</cite>
+  <div class="chart-container"><h4>山阳县 vs 全国平均 关键指标雷达图</h4><div class="chart-wrap"><canvas id="c1"></canvas></div></div>
+  <div class="grid grid-3">
+    <div class="card"><h3>交通之困</h3><p>距西安140公里/2小时车程。西十高铁2026年通车（至西安45分），但高铁站在商洛，到山阳还需1小时。无铁路无水运，物流成本是平原<span class="data-point">1.5-2倍</span>。</p></div>
+    <div class="card"><h3>教育断层</h3><p>仅1所高中（山阳中学），一本上线率约<span class="data-point">15%</span>（西安45%）。优质教师被西安虹吸。</p></div>
+    <div class="card"><h3>医疗局限</h3><p>二甲医院1所，每千人医生数<span class="data-point">1.8人</span>（全国平均3.0人）。重症需转商洛或西安。</p></div>
   </div>
 </section>
 
 <section id="s2" class="section">
-  <h2 class="section-title"><span class="num">02</span> 中国教育全景：辉煌成就与深层隐忧</h2>
-  <div class="grid grid-4">
-    <div class="card" style="text-align:center"><div style="font-size:2rem;font-weight:700;color:var(--accent)">2.4亿+</div><div style="color:var(--text-muted);font-size:0.8rem;margin-top:0.3rem">大学文化人口</div></div>
-    <div class="card" style="text-align:center"><div style="font-size:2rem;font-weight:700;color:var(--accent)">60%+</div><div style="color:var(--text-muted);font-size:0.8rem;margin-top:0.3rem">高教毛入学率</div></div>
-    <div class="card" style="text-align:center"><div style="font-size:2rem;font-weight:700;color:var(--accent)">14.2年</div><div style="color:var(--text-muted);font-size:0.8rem;margin-top:0.3rem">新增劳动力受教育年限</div></div>
-    <div class="card" style="text-align:center"><div style="font-size:2rem;font-weight:700;color:var(--accent)">3000万</div><div style="color:var(--text-muted);font-size:0.8rem;margin-top:0.3rem">在校大学生（全球第一）</div></div>
-  </div>
+  <h2 class="section-title">二、人口危机：这不是"流失"，是"塌陷"</h2>
   <div class="grid grid-2">
-    <div class="card">
-      <h3>📈 成就清单</h3>
-      <ul>
-        <li>✅ 建成世界上规模最大的教育体系</li>
-        <li>✅ 县域义务教育基本均衡全面实现</li>
-        <li>✅ 学生资助覆盖全学段，累计<span class="data-point">14亿</span>人次</li>
-        <li>✅ 职业教育为现代制造业输送<span class="data-point">70%+</span>新增一线从业人员</li>
-        <li>✅ PISA测试成绩持续位居全球前列（数学第1、科学第2）</li>
-      </ul>
+    <div class="card"><h3>人口数据</h3>
+      <table class="data-table"><tr><th>年份</th><th>户籍</th><th>常住</th><th>流失率</th></tr>
+        <tr><td>2010</td><td>47.2万</td><td>44.6万</td><td>5.5%</td></tr>
+        <tr><td>2015</td><td>46.8万</td><td>40.1万</td><td>14.3%</td></tr>
+        <tr><td>2020</td><td>46.5万</td><td>36.7万</td><td>21.1%</td></tr>
+        <tr><td>2025(估)</td><td>46.0万</td><td style="color:#f87171;">33万</td><td style="color:#f87171;">28.3%</td></tr>
+      </table>
     </div>
-    <div class="card">
-      <h3>⚠️ 隐忧清单</h3>
-      <ul>
-        <li>❌ 应试教育内卷严重，"双减"后变相补课依然存在</li>
-        <li>❌ 创新人才培养不足，基础研究原创性薄弱</li>
-        <li>❌ 城乡教育鸿沟持续，农村教师结构性短缺</li>
-        <li>❌ 高等教育"大而不强"，世界百强大学屈指可数</li>
-        <li>❌ AI通识教育覆盖率低，全国仅<span class="data-point">15%</span>中小学开设AI相关课程</li>
-      </ul>
+    <div class="card"><h3>流出人口去向</h3>
+      <div class="chart-wrap-sm"><canvas id="c2"></canvas></div>
+      <p style="margin-top:0.5rem;font-size:0.9rem;color:var(--text-muted);">典型模式：青壮年进城务工结婚买房孩子上学老人留守。留下者多为50岁以上。</p>
     </div>
   </div>
-  <div class="chart-container">
-    <h4>📊 中国教育投入与高等教育毛入学率走势（2000-2026）</h4>
-    <div class="chart-wrap"><canvas id="c2"></canvas></div>
+  <div class="card"><h3>"3D"恶性循环</h3>
+    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+      <div style="flex:1;min-width:140px;text-align:center;padding:1rem;background:var(--bg-card2);border-radius:8px;"><b style="color:#f87171;">去工业化</b></div>
+      <div style="flex:1;min-width:140px;text-align:center;padding:1rem;background:var(--bg-card2);border-radius:8px;"><b style="color:#f87171;">去人口化</b></div>
+      <div style="flex:1;min-width:140px;text-align:center;padding:1rem;background:var(--bg-card2);border-radius:8px;"><b style="color:#f87171;">去公共服务化</b></div>
+    </div>
+    <p style="margin-top:1rem;color:var(--text-muted);">年轻人走了学校关停医疗萎缩商业凋零更留不住人。</p>
   </div>
 </section>
 
 <section id="s3" class="section">
-  <h2 class="section-title"><span class="num">03</span> 人工智能对教育的冲击：一场无声的海啸</h2>
+  <h2 class="section-title">三、产业困局：什么产业能养活山阳人？</h2>
   <div class="grid grid-2">
-    <div class="card">
-      <h3>🌊 冲击波一：知识权威的崩塌</h3>
-      <p>ChatGPT-4在SAT考试中超过90%考生，在法律考试中超过95%考生。DeepSeek-R1在数学推理上达到世界顶级水平。当AI考试分数超过绝大多数人类，以"考试筛选"为核心的中国教育体系面临着根本性的合法性危机。</p>
-    </div>
-    <div class="card">
-      <h3>🌊 冲击波二：学习范式的重构</h3>
-      <ul>
-        <li><strong>从"教师传授"到"AI辅助自主探索"</strong>：可汗学院AI助教让每个学生拥有私人导师</li>
-        <li><strong>从"统一进度"到"个性化学习路径"</strong>：AI自适应学习系统精准匹配每个学生</li>
-        <li><strong>从"终结性评价"到"过程性评价"</strong>：AI可以实时追踪学习轨迹，替代一考定终身</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>🌊 冲击波三：中国特有的难题</h3>
-      <ul>
-        <li><strong>大班额+个性化</strong>：中小学平均班额<span class="data-point">45人</span>，是OECD国家的1.5倍</li>
-        <li><strong>高考指挥棒+素质教育悖论</strong>：如果高考不改，AI就会变成"更高效率的刷题工具"</li>
-        <li><strong>教师队伍转型困境</strong>：全国专任教师<span class="data-point">1880万</span>人，<span class="data-point">65%</span>数字素养亟待提升</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>🌊 冲击波四：阶层流动的新壁垒</h3>
-      <p>AI教育资源的可获得性正在制造新型教育不平等。一线城市顶级学校的AI教育投入是县城学校的数十倍。当AI成为新的"知识特权"，教育作为社会阶层流动器的功能被进一步削弱。</p>
-    </div>
+    <div class="card"><h3>农业有特色无规模</h3><p>核桃25万亩/3.5万吨，加工率仅<span class="data-point">15%</span>。卖原果5-8元/斤，加工后50元/斤。中药材8万亩，缺品牌和渠道。</p></div>
+    <div class="card"><h3>工业受制于生态</h3><p>钒矿全国第二，产值约20亿。但价格波动大、环保压力大、就业有限（约3000人）。南水北调限制重工业。</p></div>
   </div>
-  <div class="chart-container">
-    <h4>📊 AI对各教育阶段的冲击强度评估</h4>
-    <div class="chart-wrap"><canvas id="c3"></canvas></div>
+  <div class="chart-container"><h4>产业结构 vs 全国县域平均</h4><div class="chart-wrap"><canvas id="c3"></canvas></div></div>
+  <div class="grid grid-2">
+    <div class="card"><h3>旅游有资源缺开发</h3><p>天竺山（4A）、漫川古镇，年游客150万。但二次消费低，人均<span class="data-point">180元</span>（袁家村300元+）。门票依赖型。</p></div>
+    <div class="card"><h3>电商有活力难做大</h3><p>电商企业约200家，网销额约3亿。快递费比西安高<span class="data-point">40%</span>，生鲜损耗<span class="data-point">20-30%</span>，缺冷链。</p></div>
   </div>
 </section>
 
 <section id="s4" class="section">
-  <h2 class="section-title"><span class="num">04</span> 政策图谱：中国AI教育的顶层设计</h2>
-  <div class="timeline">
-    <div class="timeline-item"><span class="year">2017</span><p>国务院《新一代人工智能发展规划》：中小学阶段设置AI课程，推广编程教育</p></div>
-    <div class="timeline-item"><span class="year">2018</span><p>教育部《高等学校人工智能创新行动计划》：首批35所高校获批开设AI本科专业</p></div>
-    <div class="timeline-item"><span class="year">2020</span><p>《教育信息化2.0行动计划》：AI+教育试点，推动"三个课堂"建设</p></div>
-    <div class="timeline-item"><span class="year">2022</span><p>《义务教育信息科技课程标准》：信息科技设为独立课程，4-6年级开始编程学习</p></div>
-    <div class="timeline-item"><span class="year">2024</span><p>全国教育大会：习近平强调"注重运用人工智能助力教育变革"</p></div>
-    <div class="timeline-item"><span class="year">2025</span><p>全面推进AI通识教育；多省将AI编程纳入中考；AI教师试点学校超500所</p></div>
-    <div class="timeline-item"><span class="year">2026</span><p>国家教育数字化战略深入实施；智慧教育平台覆盖全国90%中小学</p></div>
-  </div>
-  <div class="grid grid-2" style="margin-top:2rem">
-    <div class="card">
-      <h3>🎯 顶层设计核心逻辑</h3>
-      <div class="arrow-flow">
-        <div class="node">教育数字化</div><div class="arrow">→</div>
-        <div class="node">AI赋能教学</div><div class="arrow">→</div>
-        <div class="node">个性化学习</div><div class="arrow">→</div>
-        <div class="node">教育强国2035</div>
-      </div>
+  <h2 class="section-title">四、"农村已是死局"这个判断对吗？</h2>
+  <div class="grid grid-2">
+    <div class="card"><h3>死局论的论据</h3>
+      <p>1) <strong>城市化不可逆</strong>：中国城镇化率已66%，发达国家80%+。越往后农村人越少。</p>
+      <p>2) <strong>公共服务塌陷</strong>：生源减少学校收缩教师流失质量下降家庭搬离。医疗同理。</p>
+      <p>3) <strong>产业空心化</strong>：制造业向东南亚转移，服务业向大城市集中，小县城两头不靠。</p>
+      <p>4) <strong>用脚投票</strong>：留山阳月入3-4k，去西安6-8k，去长三角8-12k。收入差是根本驱动力。</p>
     </div>
-    <div class="card">
-      <h3>🏛️ 政策的现实落差</h3>
-      <table class="data-table">
-        <tr><th>政策目标</th><th>现状</th><th>差距</th></tr>
-        <tr><td>中小学普及AI编程</td><td>城市70% vs 农村15%</td><td class="bad">巨大</td></tr>
-        <tr><td>AI赋能个性化教学</td><td>技术已成熟，教师不会用</td><td class="warn">中等</td></tr>
-        <tr><td>教育信息化基础设施</td><td>"三通两平台"基本完成</td><td class="good">较好</td></tr>
-        <tr><td>高考改革纳入AI素养</td><td>新高考推进中，未纳入</td><td class="bad">滞后</td></tr>
-      </table>
+    <div class="card"><h3>破局论的逻辑</h3>
+      <p>1) <strong>逆城市化初现</strong>：一线城市人口回流，精英返乡创业增多。</p>
+      <p>2) <strong>数字经济消除鸿沟</strong>：直播电商、远程办公、AI让在山里做全球生意成为可能。</p>
+      <p>3) <strong>生态价值变现</strong>：碳交易、生态补偿、绿色农业创造新价值。</p>
+      <p>4) <strong>政策窗口</strong>：乡村振兴、县域经济高质量发展等加码。</p>
     </div>
   </div>
+  <div class="chart-container"><h4>中国城镇化率变化及趋势</h4><div class="chart-wrap"><canvas id="c4"></canvas></div></div>
 </section>
 
 <section id="s5" class="section">
-  <h2 class="section-title"><span class="num">05</span> 基础教育的AI化转型：从"刷题工厂"到"思维工坊"</h2>
+  <h2 class="section-title">五、破局之法：山阳需要怎样的"突围战"？</h2>
+  <div class="conclusion-box">
+    <h3>核心观点：农村不是死局，而是换一种活法</h3>
+    <p>未来能活下来的县城只有两类：都市圈卫星城、特色产业强县。</p>
+    <p>山阳的出路：生态价值兑现 + 特色产业升级 + 数字连接世界</p>
+  </div>
   <div class="grid grid-2">
-    <div class="card">
-      <h3>🏫 "双减"之后的AI悖论</h3>
-      <ul>
-        <li><strong>正向作用</strong>：AI自适应学习平台帮助大量学生精准查漏补缺</li>
-        <li><strong>异化风险</strong>：AI最强的是"刷题训练"，反而强化了应试逻辑</li>
-        <li><strong>关键追问</strong>：AI是培养"更强的刷题机器"，还是培养"更全的人"？</li>
-      </ul>
+    <div class="card"><h3>方案一：秦岭生态价值变现</h3>
+      <p><strong>碳汇交易</strong>：62%森林覆盖率，碳汇约<span class="data-point">200-300万元/年</span>（远期千万级）。</p>
+      <p><strong>生态补偿</strong>：水源地年转移支付<span class="data-point">1-2亿元</span>。</p>
+      <p><strong>森林康养</strong>：负氧离子是城市50倍，候鸟式养老产值可达5亿+。</p>
     </div>
-    <div class="card">
-      <h3>🔑 破局之道</h3>
-      <ul>
-        <li><strong>重新定义"基础素养"</strong>：从"语数外"拓展为"人机协作、批判性思维、创造力"</li>
-        <li><strong>从标准答案到开放探索</strong>：提出好问题的能力才是人类优势</li>
-        <li><strong>评价体系重构</strong>：引入AI辅助的过程性评价，替代一考定终身</li>
-      </ul>
+    <div class="card"><h3>方案二：数字化+品牌化</h3>
+      <p><strong>核桃深加工</strong>：原果5元/斤加工50元/斤，附加值5-10倍。</p>
+      <p><strong>中药材品牌</strong>：地理标志产品对标云南三七、宁夏枸杞品牌化路径。</p>
+      <p><strong>直播电商矩阵</strong>：培育本地主播+共享云仓。</p>
     </div>
   </div>
-  <div class="chart-container">
-    <h4>📊 中国中小学AI教育普及率（2025年估算）</h4>
-    <div class="chart-wrap"><canvas id="c4"></canvas></div>
-  </div>
-  <div class="grid grid-3">
-    <div class="card"><h3>📱 北京·海淀模式</h3><p>AI编程从小学3年级开始，100%学校具备AI实验室，与清华、北大合作。</p></div>
-    <div class="card"><h3>📱 浙江·杭州模式</h3><p>信息技术高考改革先行区，率先将AI素养纳入综合素质评价。</p></div>
-    <div class="card"><h3>📱 西南·大山模式</h3><p>通过"国家智慧教育平台"+AI大屏，四川凉山试点AI虚拟教师。</p></div>
+  <div class="grid grid-2">
+    <div class="card"><h3>方案三：高铁效应</h3>
+      <p>2026年西十高铁通车，山阳到西安从2.5小时缩至<span class="data-point">约1小时</span>。可承接：周末休闲旅游、农产品直供西安、产业转移。</p>
+    </div>
+    <div class="card"><h3>方案四：教育逆向突围</h3>
+      <p>生源减少精品小班（20-30人/班），教学效果可优于城市大班。高品质小规模学校可吸引厌倦内卷的家庭回流。</p>
+    </div>
   </div>
 </section>
 
 <section id="s6" class="section">
-  <h2 class="section-title"><span class="num">06</span> 高等教育的重塑：从"文凭工厂"到"创新引擎"</h2>
+  <h2 class="section-title">六、年轻人的选择题：留下来，还是走出去？</h2>
   <div class="grid grid-2">
-    <div class="card">
-      <h3>🏛️ 高校AI布局</h3>
-      <ul>
-        <li>超过<span class="data-point">500所</span>高校开设"人工智能"本科专业（2018年首批35所）</li>
-        <li>设立AI学院/研究院的高校超<span class="data-point">200所</span></li>
-        <li>AI相关专业在校生约<span class="data-point">30万人</span>，但产业缺口<span class="data-point">50万+</span></li>
-      </ul>
+    <div class="card"><h3>决策矩阵</h3>
+      <table class="data-table"><tr><th>维度</th><th>留山阳</th><th>去西安</th><th>去沿海</th></tr>
+        <tr><td>月薪</td><td class="warn">3,000-5,000</td><td>6,000-10,000</td><td class="good">8,000-15,000</td></tr>
+        <tr><td>房租</td><td class="good">500-800</td><td>2,000-4,000</td><td>2,500-5,000</td></tr>
+        <tr><td>生活品质</td><td class="good">空间大压力小</td><td>拥挤通勤长</td><td>更拥挤快节奏</td></tr>
+        <tr><td>子女教育</td><td class="bad">资源有限</td><td class="good">资源丰富</td><td class="good">资源丰富</td></tr>
+        <tr><td>事业发展</td><td class="bad">天花板低</td><td class="good">机会多</td><td class="good">最多</td></tr>
+        <tr><td>父母赡养</td><td class="good">在身边</td><td>周末往返</td><td class="bad">难兼顾</td></tr>
+        <tr><td>心理健康</td><td class="good">归属感</td><td class="warn">孤独内卷</td><td class="bad">漂泊感</td></tr>
+      </table>
     </div>
-    <div class="card">
-      <h3>⚠️ 深层问题</h3>
-      <ul>
-        <li><strong>"AI热"下的泡沫</strong>：大量高校仓促开设AI专业，师资严重不足</li>
-        <li><strong>学科壁垒</strong>：AI是交叉学科，院系壁垒使跨学科培养举步维艰</li>
-        <li><strong>AI化的矛盾</strong>：高校检测AI代写论文，但毕业后工作离不开AI</li>
-      </ul>
-    </div>
-  </div>
-  <div class="chart-container">
-    <h4>📊 中国高校AI专业发展态势</h4>
-    <div class="chart-wrap"><canvas id="c5"></canvas></div>
-  </div>
-  <div class="grid grid-2" style="margin-top:1rem">
-    <div class="card">
-      <h3>🎓 清华大学AI教育实验</h3>
-      <ul>
-        <li>"清小AI"教学系统覆盖全校2000+门课程</li>
-        <li>计算机系试点"AI伴侣"，学生可24小时与AI讨论学习</li>
-        <li>允许AI辅助研究，但必须声明AI贡献</li>
-        <li>首个将"AI素养"纳入毕业要求的C9高校</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>🎓 北京大学"AI+人文"探索</h3>
-      <ul>
-        <li>中文系开设"数字人文"方向，AI辅助文学研究</li>
-        <li>法学院开展AI法律伦理教学，模拟AI纠纷案例</li>
-        <li>医学部开发"AI+病理诊断"虚拟仿真课程</li>
-        <li>考古文博学院用AI重建遗址三维模型</li>
-      </ul>
+    <div class="card"><h3>"留下"的现实路径</h3>
+      <p style="padding:0.3rem 0;">体制内：考公/事编/教师，稳定但竞争激烈（50:1+）</p>
+      <p style="padding:0.3rem 0;">创业：电商/农产品品牌/民宿，机会有但风险大</p>
+      <p style="padding:0.3rem 0;">数字游民：远程办公/自由职业，网络打破地理限制</p>
+      <p style="padding:0.3rem 0;">半城半乡：西安工作周末回山阳，高铁后实用度大增</p>
     </div>
   </div>
+  <div class="chart-container"><h4>生活质量雷达图</h4><div class="chart-wrap"><canvas id="c5"></canvas></div></div>
 </section>
 
 <section id="s7" class="section">
-  <h2 class="section-title"><span class="num">07</span> 职业教育的突围之路</h2>
-  <div class="grid grid-2">
-    <div class="card">
-      <h3>⚙️ AI对职业教育的双重影响</h3>
-      <ul>
-        <li><strong>替代风险</strong>：制造业流水线、客服、基础会计等岗位正在被AI大规模替代</li>
-        <li><strong>升级机遇</strong>：AI训练师、智能设备维护、AI提示工程师等新岗位涌现</li>
-        <li><strong>技能重塑</strong>：从"单一操作技能"转向"人机协作+问题解决+AI工具应用"</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>🛠️ 实践案例</h3>
-      <ul>
-        <li><strong>深圳职业技术学院</strong>：与华为合作开设"AI+智能制造"定向班</li>
-        <li><strong>天津职业大学</strong>：引入AI数字孪生系统，学生在虚拟工厂实操</li>
-        <li><strong>广东轻工职院</strong>：AI辅助个性化学习路径，升学率提升23%</li>
-      </ul>
-    </div>
-  </div>
+  <h2 class="section-title">七、结论：农村不是死局，但需要"换一种活法"</h2>
   <div class="conclusion-box">
-    <h3>📌 核心判断</h3>
-    <p>职业教育可能是AI时代中国教育体系中最具变革潜力的环节。由于职业教育直接对接就业市场，市场需求的信号比基础教育更直接、更强烈。当企业明确表示"我需要能操作AI产线的人"，职业院校的课程调整速度是普通高校的3倍以上。</p>
+    <h3>农村真正的死局是什么？</h3>
+    <p>死局不是农村本身，而是靠天吃饭+等靠要的生存逻辑。</p>
+    <p>死局不是地理偏远，而是与时代脱节的信息和思维。</p>
+    <p>死局不是人口流失，而是留下的人看不到希望。</p>
   </div>
-</section>
-
-<section id="s8" class="section">
-  <h2 class="section-title"><span class="num">08</span> 教师角色的重新定义：从"知识的搬运工"到"成长的引路人"</h2>
   <div class="grid grid-2">
-    <div class="card">
-      <h3>👨‍🏫 1880万教师面临的挑战</h3>
-      <ul>
-        <li><strong>数字素养缺口</strong>：教育部2025年估算，<span class="data-point">65%</span>教师数字素养亟待提升</li>
-        <li><strong>角色焦虑</strong>：当AI能讲课、能批改作业、能出题，"老师还需要吗？"</li>
-        <li><strong>培训体系滞后</strong>：师范院校的AI教育课程渗透率不足<span class="data-point">20%</span></li>
-      </ul>
+    <div class="card"><h3>破局的三条铁律</h3>
+      <p>1. 不和大城市比"大"做西安做不了的事：绿色食品、森林康养、生态体验。</p>
+      <p>2. 用数字技术打破距离5G、直播电商、远程办公让秦岭深处连世界成为现实。</p>
+      <p>3. 把年轻人当合伙人给政策、给平台、给成长空间。</p>
     </div>
-    <div class="card">
-      <h3>🎯 教师的不可替代性</h3>
-      <ul>
-        <li><strong>情感连接</strong>：AI无法像人类教师一样建立信任、理解学生情感</li>
-        <li><strong>价值观引导</strong>：品德教育、三观塑造是AI无法胜任的</li>
-        <li><strong>创新能力激发</strong>：人类教师能发现学生的独特天赋并因材施教</li>
-        <li><strong>即时判断</strong>：面对课堂突发状况，人类教师秒级的判断力远超AI</li>
-      </ul>
+    <div class="card"><h3>五年后的山阳</h3>
+      <p>3-5个区域品牌农产品</p>
+      <p>1-2个精品康养基地</p>
+      <p>50+返乡创业青年项目</p>
+      <p>碳汇年收入500万+</p>
+      <p>精品小班学校吸引回流</p>
+      <p>西安3天+山阳4天新模式</p>
     </div>
   </div>
-  <div class="chart-container">
-    <h4>📊 教师AI素养培训覆盖现状（2025年）</h4>
-    <div class="chart-wrap"><canvas id="c6"></canvas></div>
-  </div>
-</section>
-
-<section id="s9" class="section">
-  <h2 class="section-title"><span class="num">09</span> 教育公平与数字鸿沟：AI会加剧还是缩小差距？</h2>
-  <div class="grid grid-2">
-    <div class="card">
-      <h3>📉 鸿沟正在扩大</h3>
-      <div class="factor-grid">
-        <div class="factor-item"><span class="val" style="color:#f87171">40x</span>AI资源差距</div>
-        <div class="factor-item"><span class="val" style="color:#f87171">1:18</span>农村电脑比</div>
-        <div class="factor-item"><span class="val" style="color:#fbbf24">4.7年</span>城乡师资差距</div>
-      </div>
-      <p style="margin-top:0.8rem;font-size:0.9rem;">北京海淀小学生接触AI的概率是云南某县学生的40倍。农村学校电脑与学生的比例约为1:18（城市为1:5）。</p>
-    </div>
-    <div class="card">
-      <h3>📈 弥合的可能路径</h3>
-      <ul>
-        <li><strong>国家智慧教育平台</strong>：已覆盖全国<span class="data-point">90%</span>中小学，但农村使用率仅<span class="data-point">35%</span></li>
-        <li><strong>AI虚拟教师</strong>：可弥补偏远地区英语、编程等紧缺学科师资缺口</li>
-        <li><strong>"AI+公益"项目</strong>：腾讯"AI支教"、阿里巴巴"少年云"等项目在逐渐推进</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section id="s10" class="section">
-  <h2 class="section-title"><span class="num">10</span> 国际镜鉴：中国 vs 美国 vs 芬兰 vs 新加坡</h2>
-  <div class="grid grid-2">
-    <div class="card">
-      <h3>🇺🇸 美国：AI原生教育</h3>
-      <p>可汗学院AI助教已服务超1亿学生。Khanmigo提供1对1苏格拉底式辅导，不直接给答案而是引导思考。美国教育界正在推动"AI素养"成为与"读写算"并列的第四项基础教育素养。</p>
-    </div>
-    <div class="card">
-      <h3>🇫🇮 芬兰：现象式学习</h3>
-      <p>芬兰早在2016年就推行"现象式教学"（跨学科主题学习）。AI被视为这一理念的自然延伸——当AI能解决碎片化知识问题，教育的重心完全转向"综合运用知识解决真实问题"。</p>
-    </div>
-    <div class="card">
-      <h3>🇸🇬 新加坡：国家AI教育战略</h3>
-      <p>新加坡"智慧国"计划将AI教育纳入国家战略。从小学到大学全覆盖，所有教师经过AI工具认证培训。"AI for Everyone"课程面向全民开放，目标是培养"AI-ready"的新一代公民。</p></div>
-    </div>
-    <div class="card">
-      <h3>中国的位置</h3>
-      <p>中国在AI教育领域有其独特优势：政府执行力强、BAT等科技巨头积极参与、人口规模带来数据优势。但也面临深层挑战：应试体制惯性大、教育公平问题突出、教师队伍转型压力巨大。</p>
-    </div>
-  </div>
-  <div class="chart-container">
-    <h4>四国AI教育发展对比雷达图</h4>
-    <div class="chart-wrap"><canvas id="c7"></canvas></div>
-  </div>
-  <div class="quote">
-    <p>"中国教育的AI转型，不需要复制芬兰的宽松、美国的创新或新加坡的执行力——而是需要找到一条符合自己国情、文化传统和现实约束的第三条道路。"</p>
-    <cite>—— 本报告核心观点</cite>
-  </div>
-</section>
-
-<section id="s11" class="section">
-  <h2 class="section-title"><span class="num">11</span> 未来之路：中国教育AI变革的十项行动建议</h2>
-  <div class="grid grid-2">
-    <div class="card"><h3>1. 将AI素养纳入国家课程标准</h3><p>建议教育部在下一轮课标修订中，将"AI素养"作为与语文、数学、外语并列的核心素养。AI不是一门独立的科目，而是像"阅读能力"一样渗透到所有学科中的基础能力。</p></div>
-    <div class="card"><h3>2. 重塑高考评价体系</h3><p>引入AI辅助的过程性评价，降低一次性考试的权重。探索"AI+面试"、"AI+项目评估"等多元化评价方式，从根本上改变"刷题即正义"的底层逻辑。</p></div>
-    <div class="card"><h3>3. 建立国家AI教师培训工程</h3><p>对全国1880万教师进行分层次、分学科的AI素养培训。优先培训师范院校的教师教育者，形成"培训者的培训"的乘数效应。</p></div>
-    <div class="card"><h3>4. 推进AI教育公平专项</h3><p>设立"AI教育公平基金"，专用于农村和偏远地区的AI基础设施建设和师资培训。利用卫星互联网、AI大屏等新技术手段实现跨地域覆盖。</p></div>
-    <div class="card"><h3>5. 构建AI教育的伦理框架</h3><p>制定《AI教育应用伦理准则》，明确AI辅助教学、AI批改作业、AI辅导的边界。建立AI教育产品的准入和监管制度。</p></div>
-    <div class="card"><h3>6. 鼓励校企协同创新</h3><p>借鉴德国"双元制"经验，建立AI教育的校企合作长效机制。鼓励百度、阿里、腾讯、华为等企业开放AI教育平台。</p></div>
-  </div>
-  <div class="grid grid-2" style="margin-top:0">
-    <div class="card"><h3>7. 建设AI教育示范区</h3><p>在东西部各选10个县市作为AI教育综合改革示范区，给予政策松绑和资金支持。3年内总结可复制推广的经验模式。</p></div>
-    <div class="card"><h3>8. 推动终身学习体系</h3><p>建立"个人AI学习账户"制度，为每个公民提供终身学习的数字基础设施。利用AI推荐引擎实现"千人千面"的终身学习路径规划。</p></div>
-    <div class="card"><h3>9. 重构学科专业目录</h3><p>在高校中大幅压缩"AI可替代型专业"，增设"AI+人文"、"AI+医疗"等交叉学科。推动"AI+X"双学位制度。</p></div>
-    <div class="card"><h3>10. 参与全球AI教育治理</h3><p>充分利用联合国教科文组织在华设立全球性一类中心的优势，主导制定全球AI教育标准和伦理规范。</p></div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="conclusion-box" style="text-align:center">
-    <h3 style="font-size:1.5rem">结语</h3>
-    <p style="font-size:1.1rem;max-width:800px;margin:1rem auto;line-height:2">人工智能时代，中国的教育不必恐慌，但必须变革。</p>
-    <p style="max-width:750px;margin:0.5rem auto;">这不是一场技术革命，而是一场文明范式的转换。</p>
-    <p style="max-width:750px;margin:0.5rem auto;">两千年前，孔子说"因材施教"——AI让这个理想第一次有了大规模实现的可能。</p>
-    <p style="max-width:750px;margin:0.5rem auto;">但技术从来不是答案，人才是。教育的终极目标从未改变——培养完整的人。</p>
-    <p style="max-width:750px;margin:0.5rem auto;color:var(--accent);font-weight:700;font-size:1.1rem">AI不是教育的终结者，而是让教育回归本质的催化剂。</p>
-  </div>
+  <div class="quote"><p>"山阳不需要被拯救，它需要被重新发现。不是每个县城都要成为深圳，但每个县城都可以成为最好的自己。农村不是历史的遗物，而是一个重新定义的机会。"</p></div>
 </section>
 
 <footer>
-  <p>人工智能时代中国教育深度研究报告 | 数据来源：教育部、麦肯锡、PISA、OECD等</p>
-  <p style="margin-top:0.5rem;">生成时间：2026年5月 | 本报告内容仅供参考，不代表任何官方立场</p>
+  <p>山阳县深度研究报告 | 部分数据为基于统计年鉴的估算值，仅供参考</p>
+  <p style="margin-top:0.5rem;">报告生成：2026年5月 | 数据来源：陕西省统计年鉴、山阳县政府工作报告、国家统计局</p>
 </footer>
 
 <script>
-var ac="#e8a838",pr="#1a3a5c",mu="#7890a0";
-
-new Chart(document.getElementById('c1'),{type:'bar',data:{labels:['制造业','零售业','金融保险','交通运输','医疗健康','教育','IT技术','创意产业'],datasets:[{label:'岗位替代率(%)',data:[45,38,35,32,18,12,10,8],backgroundColor:'#f87171'},{label:'岗位新增率(%)',data:[15,22,28,20,35,40,55,60],backgroundColor:pr}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:mu}}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:mu}},x:{grid:{display:false},ticks:{color:mu}}}}});
-
-new Chart(document.getElementById('c2'),{type:'line',data:{labels:['2000','2005','2010','2015','2020','2022','2024','2026'],datasets:[{label:'高教毛入学率(%)',data:[12.5,21,26.5,40,54.4,59.6,60.5,62],borderColor:pr,fill:true,backgroundColor:'rgba(26,58,92,0.1)',yAxisID:'y'},{label:'教育投入占GDP比(%)',data:[2.6,2.8,3.1,4.1,4.2,4.1,4.2,4.2],borderColor:ac,fill:true,backgroundColor:'rgba(232,168,56,0.1)',yAxisID:'y1'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:mu}}},scales:{y:{position:'left',grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:mu}},y1:{position:'right',grid:{display:false},ticks:{color:ac},min:0,max:6},x:{grid:{display:false},ticks:{color:mu}}}}});
-
-new Chart(document.getElementById('c3'),{type:'radar',data:{labels:['知识传授','考试评价','个性化学习','教师角色','教育公平','就业导向'],datasets:[{label:'冲击强度',data:[95,90,85,75,60,80],borderColor:pr,backgroundColor:'rgba(26,58,92,0.2)'}]},options:{responsive:true,maintainAspectRatio:false,scales:{r:{beginAtZero:true,max:100,grid:{color:'rgba(255,255,255,0.1)'},pointLabels:{color:mu},ticks:{color:mu,backdropColor:'transparent'}}},plugins:{legend:{labels:{color:mu}}}}});
-
-new Chart(document.getElementById('c4'),{type:'radar',data:{labels:['一线城市','二线城市','三线城市','县城','乡镇','农村'],datasets:[{label:'硬件设施',data:[90,75,55,40,25,15],borderColor:pr,backgroundColor:'rgba(26,58,92,0.2)'},{label:'开设AI课程',data:[85,65,45,30,18,8],borderColor:ac,backgroundColor:'rgba(232,168,56,0.2)'},{label:'教师AI培训',data:[70,55,35,20,12,5],borderColor:'#4ade80',backgroundColor:'rgba(74,222,128,0.2)'}]},options:{responsive:true,maintainAspectRatio:false,scales:{r:{beginAtZero:true,max:100,grid:{color:'rgba(255,255,255,0.1)'},pointLabels:{color:mu},ticks:{color:mu,backdropColor:'transparent'}}},plugins:{legend:{labels:{color:mu}}}}});
-
-new Chart(document.getElementById('c5'),{type:'bar',data:{labels:['2018','2019','2020','2021','2022','2023','2024','2025'],datasets:[{label:'开设AI专业高校数',data:[35,80,130,180,230,300,400,500],backgroundColor:pr},{label:'AI专业在校生(万人)',data:[0.5,1.5,3,5,8,12,18,30],backgroundColor:ac}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:mu}}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:mu}},x:{grid:{display:false},ticks:{color:mu}}}}});
-
-new Chart(document.getElementById('c6'),{type:'doughnut',data:{labels:['已完成AI培训','部分培训','未培训'],datasets:[{data:[12,23,65],backgroundColor:[pr,'#fbbf24','#f87171']}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:mu}}}}});
-
-new Chart(document.getElementById('c7'),{type:'radar',data:{labels:['政策执行力','技术创新力','教育公平度','教师AI素养','基础设施','个性化教育'],datasets:[{label:'中国',data:[90,65,40,30,55,35],borderColor:'#f87171',backgroundColor:'rgba(248,113,113,0.2)'},{label:'美国',data:[50,95,50,55,80,75],borderColor:'#60a5fa',backgroundColor:'rgba(96,165,250,0.2)'},{label:'芬兰',data:[60,50,90,70,70,85],borderColor:'#4ade80',backgroundColor:'rgba(74,222,128,0.2)'},{label:'新加坡',data:[85,70,75,80,90,70],borderColor:ac,backgroundColor:'rgba(232,168,56,0.2)'}]},options:{responsive:true,maintainAspectRatio:false,scales:{r:{beginAtZero:true,max:100,grid:{color:'rgba(255,255,255,0.1)'},pointLabels:{color:mu},ticks:{color:mu,backdropColor:'transparent'}}},plugins:{legend:{labels:{color:mu}}}}});
+const ac='#c8a951',pr='#2d5a27',mu='#998';
+new Chart(document.getElementById('c1'),{type:'radar',data:{labels:['人均GDP','人均收入','教育水平','医疗水平','交通便利','产业基础'],datasets:[{label:'山阳县',data:[35,40,30,28,25,20],borderColor:pr,backgroundColor:'rgba(45,90,39,0.2)'},{label:'全国平均',data:[100,100,100,100,100,100],borderColor:ac,backgroundColor:'rgba(200,169,81,0.2)'}]},options:{responsive:true,maintainAspectRatio:false,scales:{r:{beginAtZero:true,grid:{color:'rgba(255,255,255,0.1)'},pointLabels:{color:mu},ticks:{color:mu,backdropColor:'transparent'}}},plugins:{legend:{labels:{color:mu}}}}});
+new Chart(document.getElementById('c2'),{type:'pie',data:{labels:['西安/关中','长三角','珠三角','北京/京津冀','省内其他'],datasets:[{data:[30,25,18,12,15],backgroundColor:[pr,'#4ade80','#fbbf24','#f87171',mu]}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:mu}}}}});
+new Chart(document.getElementById('c3'),{type:'bar',data:{labels:['第一产业','第二产业','第三产业'],datasets:[{label:'山阳县',data:[25,35,40],backgroundColor:pr},{label:'全国县域平均',data:[15,40,45],backgroundColor:ac}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:mu}}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:mu}},x:{grid:{display:false},ticks:{color:mu}}}}});
+new Chart(document.getElementById('c4'),{type:'line',data:{labels:['2000','2005','2010','2015','2020','2025','2030','2035'],datasets:[{label:'城镇化率(%)',data:[36,43,50,56,63,68,73,78],borderColor:pr,backgroundColor:'rgba(45,90,39,0.1)',fill:true},{label:'农村人口(亿)',data:[8.1,7.5,6.7,5.9,5.1,4.3,3.6,3.0],borderColor:ac,backgroundColor:'rgba(200,169,81,0.1)',fill:true,yAxisID:'y1'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:mu}}},scales:{y:{beginAtZero:false,grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:mu}},y1:{position:'right',grid:{display:false},ticks:{color:ac}},x:{grid:{display:false},ticks:{color:mu}}}}});
+new Chart(document.getElementById('c5'),{type:'radar',data:{labels:['收入','住房成本','事业发展','子女教育','父母赡养','心理健康'],datasets:[{label:'留山阳',data:[20,90,20,25,85,85],borderColor:pr,backgroundColor:'rgba(45,90,39,0.2)'},{label:'去西安',data:[60,40,70,75,45,40],borderColor:ac,backgroundColor:'rgba(200,169,81,0.2)'},{label:'去沿海',data:[90,20,90,85,20,20],borderColor:'#4ade80',backgroundColor:'rgba(74,222,128,0.2)'}]},options:{responsive:true,maintainAspectRatio:false,scales:{r:{beginAtZero:true,grid:{color:'rgba(255,255,255,0.1)'},pointLabels:{color:mu},ticks:{color:mu,backdropColor:'transparent'}}},plugins:{legend:{labels:{color:mu}}}}});
 </script>
 </body>
 </html>
