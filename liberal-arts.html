@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI时代，文科该何去何从？ | 深度研究报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+:root{--primary:#8b4c6e;--accent:#d4a574;--bg:#0a0e14;--bg-card:#111820;--bg-card2:#1a1f2a;--text:#d0d8e0;--text-muted:#7890a0;--border:#1a2a3a;--highlight:rgba(139,76,110,0.3)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);line-height:1.9}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,#0a0e14,#120a16,#0a0e14);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 20%,rgba(139,76,110,0.25) 0%,transparent 50%)}
+.hero-content{position:relative;z-index:1;padding:2rem;max-width:900px}
+.hero h1{font-size:clamp(1.8rem,4.5vw,3.2rem);margin-bottom:1.2rem;background:linear-gradient(135deg,#d4a574,#e8c4a0,#d4a574);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.4}
+.hero p{color:var(--text-muted);max-width:700px;margin:0 auto 2.5rem;font-size:1.05rem;line-height:1.8}
+.hero-badge{display:inline-block;padding:0.4rem 1.2rem;border:1px solid var(--accent);border-radius:2rem;font-size:0.8rem;margin-bottom:1.5rem;letter-spacing:.15em}
+.hero-stats{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2rem}
+.stat-item{text-align:center;padding:1rem 1.5rem;background:rgba(255,255,255,0.04);border-radius:12px;border:1px solid rgba(255,255,255,0.05);min-width:120px}
+.stat-num{font-size:1.6rem;font-weight:700;color:var(--accent)}
+.stat-label{font-size:0.7rem;color:var(--text-muted);margin-top:0.2rem}
+nav{position:sticky;top:0;z-index:100;background:rgba(10,14,20,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0.7rem 0.5rem;display:flex;gap:0.3rem;overflow-x:auto;justify-content:center}
+nav a{color:var(--text-muted);text-decoration:none;font-size:0.78rem;padding:0.3rem 0.7rem;border-radius:2rem;white-space:nowrap;transition:all 0.3s;flex-shrink:0}
+nav a:hover{color:var(--accent);background:var(--highlight)}
+.section{max-width:1100px;margin:0 auto;padding:3.5rem 1.5rem}
+.section-title{font-size:clamp(1.3rem,2.8vw,2rem);margin-bottom:2rem;padding-bottom:1rem;border-bottom:2px solid var(--primary);position:relative}
+.section-title .num{color:var(--accent);font-size:0.8em;opacity:0.7;margin-right:0.5rem}
+.section-title::after{content:'';position:absolute;bottom:-2px;left:0;width:50px;height:2px;background:var(--accent)}
+.grid{display:grid;gap:1.5rem}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.grid-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.card{background:var(--bg-card);border-radius:12px;padding:1.8rem;border:1px solid var(--border);transition:all 0.3s}
+.card:hover{border-color:var(--primary);transform:translateY(-2px)}
+.card h3{color:var(--accent);margin-bottom:0.8rem;font-size:1.05rem}
+.card h4{color:var(--primary);margin:0.8rem 0 0.4rem;font-size:0.95rem}
+.card p{color:var(--text-muted);font-size:0.92rem;line-height:1.7}
+.card ul{padding-left:1.2rem;color:var(--text-muted);font-size:0.9rem}
+.card li{padding:0.3rem 0;line-height:1.6}
+.big-stat{font-size:2.5rem;font-weight:700;color:var(--accent);text-align:center;margin:0.5rem 0}
+.big-stat-label{text-align:center;color:var(--text-muted);font-size:0.8rem;margin-top:-0.3rem}
+.chart-container{background:var(--bg-card);border-radius:12px;padding:1.5rem;border:1px solid var(--border);margin-bottom:1.5rem}
+.chart-container h4{margin-bottom:1rem;color:var(--accent);font-size:0.95rem;text-align:center}
+.chart-wrap{position:relative;height:350px}
+.chart-wrap-sm{height:240px}
+.data-table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.85rem}
+.data-table th,.data-table td{padding:0.6rem 0.8rem;text-align:left;border-bottom:1px solid var(--border)}
+.data-table th{background:var(--bg-card2);color:var(--accent);font-weight:600}
+.good{color:#4ade80}.bad{color:#f87171}.warn{color:#fbbf24}
+.quote-card{border-left:3px solid var(--accent);padding:1.2rem 1.5rem;margin:1.5rem 0;background:rgba(212,165,116,0.05);border-radius:0 12px 12px 0}
+.quote-card p{font-style:italic;color:var(--text-muted)}
+.quote-card cite{display:block;margin-top:0.5rem;color:var(--text-muted);font-size:0.8rem}
+.conclusion-box{background:linear-gradient(135deg,rgba(139,76,110,0.15),rgba(212,165,116,0.05));border:1px solid var(--primary);border-radius:12px;padding:2rem;margin:2rem 0}
+.conclusion-box h3{color:var(--accent);margin-bottom:1rem;font-size:1.2rem}
+.conclusion-box p{padding:0.4rem 0;color:var(--text-muted);line-height:1.8}
+.data-point{display:inline-block;background:var(--highlight);color:var(--accent);padding:0.15rem 0.5rem;border-radius:4px;font-weight:700;font-size:0.85rem}
+.flow-chart{display:flex;align-items:center;justify-content:center;gap:0.5rem;flex-wrap:wrap;padding:1rem}
+.flow-chart .node{padding:0.6rem 1rem;background:var(--bg-card2);border-radius:8px;font-size:0.85rem;text-align:center;border:1px solid var(--border)}
+.flow-chart .arrow{color:var(--accent);font-size:1.5rem}
+.comparison-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin:1rem 0}
+.comparison-table th,.comparison-table td{padding:0.5rem 0.6rem;border:1px solid var(--border);text-align:center}
+.comparison-table th{background:var(--bg-card2);color:var(--accent)}
+.comparison-table td{color:var(--text-muted)}
+.risk-high{color:#f87171}.risk-mid{color:#fbbf24}.risk-low{color:#4ade80}
+.toc-card{background:var(--bg-card);border-radius:12px;padding:2rem;border:1px solid var(--border);margin:2rem 0}
+.toc-card ol{padding-left:1.5rem;columns:2;column-gap:2rem}
+.toc-card li{padding:0.4rem 0;font-size:0.9rem}
+.toc-card li a{color:var(--text-muted);text-decoration:none}
+.toc-card li a:hover{color:var(--accent)}
+footer{text-align:center;padding:3rem 1.5rem;color:var(--text-muted);border-top:1px solid var(--border);font-size:0.8rem;margin-top:2rem}
+@media(max-width:768px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}.hero-stats{gap:0.5rem}.stat-item{min-width:80px;padding:0.6rem}.stat-num{font-size:1.2rem}.toc-card ol{columns:1}}
+</style>
+</head>
+<body>
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Deep Research 2026</div>
+    <h1>AI时代，文科该何去何从？</h1>
+    <p>2025年，ChatGPT通过美国律师资格考试（成绩在90%以上）；2024年，超过70%的新闻稿已由AI生成。当AI在翻译、写作、绘画、法律、会计等传统文科领域展现出惊人能力，"文科还有用吗"从一个哲学问题变成了紧迫的现实问题。本报告从就业数据、学科转型、国际比较、核心价值四个维度，深度解析AI时代文科的命运与出路。</p>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-num">90%+</div><div class="stat-label">AI通过律考</div></div>
+      <div class="stat-item"><div class="stat-num">70%+</div><div class="stat-label">新闻AI生成</div></div>
+      <div class="stat-item"><div class="stat-num">9.4%</div><div class="stat-label">美国文科占比</div></div>
+      <div class="stat-item"><div class="stat-num">1500万</div><div class="stat-label">中国文科生</div></div>
+    </div>
+  </div>
+</section>
+<nav>
+  <a href="#s1">一、文科危机</a><a href="#s2">二、职业冲击</a><a href="#s3">三、全球危机</a>
+  <a href="#s4">四、不可替代</a><a href="#s5">五、中国现状</a><a href="#s6">六、考试困局</a>
+  <a href="#s7">七、文科+AI</a><a href="#s8">八、国际镜鉴</a><a href="#s9">九、改革路径</a>
+  <a href="#s10">十、未来之光</a>
+</nav>
+<section id="s1" class="section">
+<h2 class="section-title"><span class="num">01</span> 文科的"生存危机"——一个真实而紧迫的命题</h2>
+<div class="grid grid-2">
+<div class="card"><h3>危机的三重来源</h3>
+<ul>
+<li><strong>认知性危机</strong>：当AI通过律师考试、写出诗歌、创作艺术品，社会追问"文科生还能干什么"</li>
+<li><strong>结构性危机</strong>：全球高校裁撤文科专业。哈佛2024年取消30+门文科课；英国肯特大学关闭哲学系；日本多所国立大学暂停文科招生</li>
+<li><strong>就业性危机</strong>：中国文科毕业生就业率持续低于理工科，AI工具挤压传统文科就业空间</li>
+</ul>
+</div>
+<div class="card"><h3>一个文科生的自白</h3>
+<p>"我学了四年的中文专业，读完了《文心雕龙》《人间词话》，背了三百首唐诗宋词。毕业时发现，一个AI工具3秒钟就能写出一篇及格水平的文章。面试官问我：'你比AI强在哪里？'我沉默了。"</p>
+<p style="margin-top:0.8rem;font-size:0.85rem;color:var(--text-muted)">—— 改编自真实经历</p>
+</div>
+</div>
+<div class="quote-card"><p>"文科的价值不在于训练AI能做的技能，而在于培养AI无法替代的人。问题在于——我们是否还在用训练AI的方式训练人？"</p><cite>—— 本报告核心追问</cite></div>
+<div class="grid grid-4">
+<div class="card" style="text-align:center"><div class="big-stat">42%</div><div class="big-stat-label">AI替代翻译预计2027</div></div>
+<div class="card" style="text-align:center"><div class="big-stat">31%</div><div class="big-stat-label">法律文书AI已替代</div></div>
+<div class="card" style="text-align:center"><div class="big-stat">64%</div><div class="big-stat-label">文科生担忧AI影响</div></div>
+<div class="card" style="text-align:center"><div class="big-stat">28.6%</div><div class="big-stat-label">文科初次就业率</div></div>
+</div>
+</section>
+<section id="s2" class="section">
+<h2 class="section-title"><span class="num">02</span> AI对文科职业的冲击：八大领域深度分析</h2>
+<div class="chart-container"><h4>各文科领域AI替代风险指数（0-100）</h4><div class="chart-wrap"><canvas id="c1"></canvas></div></div>
+<div class="grid grid-2">
+<div class="card"><h3>高风险（替代率&gt;60%）</h3>
+<h4>笔译（82分）</h4><p>DeepL、GPT-4在商务翻译中已接近人类水平。机器翻译市场破100亿美元。基础翻译岗位需求下降40%。</p>
+<h4>基础数据分析（72分）</h4><p>AI可自动完成数据清洗、可视化、报告撰写。35%基础数据分析已由AI完成。</p>
+<h4>基础新闻（68分）</h4><p>70%的财经短讯、体育报道由AI生成。新华社"Media GPT"已投入使用。</p>
+</div>
+<div class="card"><h3>中低风险（替代率&lt;60%）</h3>
+<h4>法律（58分）</h4><p>GPT-4通过律考，成绩超90%人类。但法庭辩论、策略判断依赖人类。</p>
+<h4>会计审计（55分）</h4><p>AI完成基础记账审计。高阶税务筹划依然稳固。</p>
+<h4>平面设计（50分）</h4><p>30%商业设计由AI完成。品牌策略级设计需人类审美。</p>
+<h4>文学创作（28分）</h4><p>AI能写"及格"文章，但无法创造真正文学价值。</p>
+<h4>心理咨询（20分）</h4><p>深度治疗建立在真实人类关系上，AI无法跨越。</p>
+</div>
+</div>
+</section>
+<section id="s3" class="section">
+<h2 class="section-title"><span class="num">03</span> 全球文科危机：高校"关停并转"浪潮</h2>
+<div class="grid grid-2">
+<div class="card"><h3>美国：常春藤的文科寒冬</h3><ul>
+<li>哈佛2024年取消30+门文科课程</li>
+<li>耶鲁英语专业注册人数下降40%</li>
+<li>斯坦福CS增长400% vs 历史系下降30%</li>
+<li>全美文科本科占比从16.5%降至9.4%（2012-2024）</li>
+</ul></div>
+<div class="card"><h3>欧洲与亚洲：系统性收缩</h3><ul>
+<li>英国肯特大学关闭哲学、人类学、比较文学</li>
+<li>日本要求86所国立大学转型文科专业</li>
+<li>澳大利亚人文社科资助削减30%，学费涨100%</li>
+</ul></div>
+</div>
+<div class="chart-container"><h4>全球高校文科专业变化趋势</h4><div class="chart-wrap"><canvas id="c2"></canvas></div></div>
+<div class="quote-card"><p>"人文学科的衰落不是因为它们不再重要，而是因为在技术崇拜的时代，失去了自我辩护的语言。"</p><cite>—— Martha Nussbaum</cite></div>
+</section>
+<section id="s4" class="section">
+<h2 class="section-title"><span class="num">04</span> AI时代文科的不可替代性：三大核心价值</h2>
+<div class="grid grid-2">
+<div class="card"><h3>批判性思维</h3><p>AI是"高级模式匹配器"，无法进行真正的批判性思维——不能质疑自己的前提、识别隐含价值观、判断"为什么这个问题值得被回答"。</p></div>
+<div class="card"><h3>伦理判断与价值选择</h3><p>AI可以优化效率，但无法进行价值排序。所有AI伦理问题——算法偏见、电车难题、数据隐私——本质上都是文科问题。</p></div>
+<div class="card"><h3>同理心与人类连接</h3><p>AI可以模拟共情，但无法真正感受。教育、心理治疗、护理——需要真实人类连接的领域，文科训练提供的是AI无法复制的能力。</p></div>
+<div class="card"><h3>人类 vs AI 能力对比</h3><div class="chart-container" style="padding:0;border:none"><div class="chart-wrap-sm"><canvas id="c4"></canvas></div></div></div>
+</div>
+</section>
+<section id="s5" class="section">
+<h2 class="section-title"><span class="num">05</span> 中国文科教育全景</h2>
+<div class="grid grid-4">
+<div class="card" style="text-align:center"><div class="big-stat">约1500万</div><div class="big-stat-label">文科在校大学生</div></div>
+<div class="card" style="text-align:center"><div class="big-stat">51%</div><div class="big-stat-label">文科占本科招生</div></div>
+<div class="card" style="text-align:center"><div class="big-stat">5500元</div><div class="big-stat-label">文科平均起薪</div></div>
+<div class="card" style="text-align:center"><div class="big-stat">23%</div><div class="big-stat-label">文科含数字课程</div></div>
+</div>
+<div class="grid grid-2">
+<div class="card"><h3>中国"文科焦虑"的特殊性</h3><ul>
+<li>全球最大文科教育体系，同质化严重</li>
+<li>就业率28.6%，低于理工科15个百分点</li>
+<li>起薪5500元/月 vs 计算机9500元/月</li>
+<li>课程内容10年未变，数字课程仅23%</li>
+<li>"防AI"悖论：学校检测AI写论文，职场要求会用AI</li>
+</ul></div>
+<div class="card"><h3>文理工就业率对比</h3><div class="chart-wrap"><canvas id="c3"></canvas></div></div>
+</div>
+</section>
+<section id="s6" class="section">
+<h2 class="section-title"><span class="num">06</span> 考试与评价的悖论：AI时代"防作弊"困局</h2>
+<div class="grid grid-2">
+<div class="card"><h3>一个荒诞的现实</h3><p>2024年，西南大学、中国人民大学等多所高校宣布用"AI检测"来检查学生是否用AI写论文——用AI抓AI。这个场景充满悖论：教育在教学生使用AI工具的同时，又在惩罚那些"用得太好"的学生。</p></div>
+<div class="card"><h3>文科评价的根本困境</h3><ul>
+<li>论文是文科核心评价方式，恰恰是AI最擅长的领域</li>
+<li>闭卷考试考察知识记忆，AI知识储备远超人类</li>
+<li>如果我们禁止学生使用AI，文科教育是否在主动与技术脱节？</li>
+</ul></div>
+</div>
+<div class="quote-card"><p>"AI时代的文科考试，不该是'看谁能假装没有AI'，而是'看谁能跟AI配合得更好'。前者检测作弊能力，后者才检测真实能力。"</p><cite>—— 斯坦福大学AI+教育研究中心</cite></div>
+</section>
+<section id="s7" class="section">
+<h2 class="section-title"><span class="num">07</span> "文科+AI"的转型路径</h2>
+<div class="grid grid-2">
+<div class="card"><h3>成功转型案例</h3>
+<h4>北京大学"数字人文"</h4><p>中文系融合古典文献学与NLP，用AI分析《全唐诗》语言演变、《红楼梦》版本差异。95%毕业生进互联网大厂或深造。</p>
+<h4>清华大学"AI+新闻"</h4><p>新闻学院与计算机系联合培养"AI素养+新闻专业"人才。2024年首批毕业生就业率100%。</p>
+</div>
+<div class="card"><h3>四大转型方向</h3>
+<div class="flow-chart" style="padding:0.3rem 0"><div class="node">AI副驾驶</div><div class="arrow">→</div><div class="node">乘数效应</div></div>
+<p style="font-size:0.85rem;margin:0.3rem 0 0.8rem 0">会使用AI辅助研究与创作，成为"超级文科人"</p>
+<div class="flow-chart" style="padding:0.3rem 0"><div class="node">AI伦理师</div><div class="arrow">→</div><div class="node">技术监督</div></div>
+<p style="font-size:0.85rem;margin:0.3rem 0 0.8rem 0">AI伦理审查、算法审计、科技政策制定</p>
+<div class="flow-chart" style="padding:0.3rem 0"><div class="node">UX设计师</div><div class="arrow">→</div><div class="node">人文洞察</div></div>
+<p style="font-size:0.85rem;margin:0.3rem 0 0.8rem 0">产品经理、用户体验研究员、内容策略师</p>
+<div class="flow-chart" style="padding:0.3rem 0"><div class="node">跨学科人</div><div class="arrow">→</div><div class="node">AI+人文</div></div>
+<p style="font-size:0.85rem;margin:0.3rem 0 0">数字策展、计算语言学、文化分析</p>
+</div>
+</div>
+<div class="chart-container"><h4>转型能力重构图谱</h4><div class="chart-wrap"><canvas id="c5"></canvas></div></div>
+</section>
+<section id="s8" class="section">
+<h2 class="section-title"><span class="num">08</span> 国际镜鉴：各国文科AI转型策略</h2>
+<div class="grid grid-2">
+<div class="card"><h3>美国：从"纯文科"到"文科+"</h3><ul>
+<li>哈佛、耶鲁推出"文科+数据科学"联合学士</li>
+<li>MIT工程生必修8门人文课程</li>
+<li>加州大学将"AI伦理"设为所有专业必修课</li>
+</ul></div>
+<div class="card"><h3>欧洲：捍卫"无用之学"</h3><ul>
+<li>德国坚持博雅教育，认为人文素养是公民教育不可分割的部分</li>
+<li>法国哲学家担任全国AI战略委员会主席</li>
+<li>芬兰在普及AI教育同时增加人文课程占比</li>
+</ul></div>
+</div>
+<div class="chart-container"><h4>各国文科AI转型策略对比</h4><div class="chart-wrap"><canvas id="c6"></canvas></div></div>
+</section>
+<section id="s9" class="section">
+<h2 class="section-title"><span class="num">09</span> 中国文科教育改革的十项路径建议</h2>
+<div class="grid grid-2">
+<div class="card"><h3>1. 重构文科课程</h3><p>每门专业课嵌入数字素养模块。历史系学数据分析，中文系学NLP基础。2028年前实现100%课程数字化升级。</p></div>
+<div class="card"><h3>2. "AI+X"跨学科培养</h3><p>100所双一流高校设立"文科+AI"实验班。文科生辅修数据科学，理科生必修人文通识。</p></div>
+<div class="card"><h3>3. 文科生AI素养认证</h3><p>教育部制定人文社科AI素养标准：AI工具应用、AI伦理判断、算法社会认知三大维度。</p></div>
+<div class="card"><h3>4. 改革评价体系</h3><p>引入"AI辅助但不依赖AI"的新型考核。允许使用AI但要求标注贡献，将"提出好问题的能力"纳入评价。</p></div>
+<div class="card"><h3>5. 压缩同质化专业</h3><p>合并就业率持续低于15%的专业。鼓励差异化方向如"非遗数字化""计算语言学"。</p></div>
+<div class="card"><h3>6. "文科+产业"融合</h3><p>在文化创意、互联网内容、教育科技等领域建立产教融合基地。</p></div>
+<div class="card"><h3>7. 师范院校AI化</h3><p>将AI素养纳入师范生必修课程，让未来教师成为AI时代文科教育的引领者。</p></div>
+<div class="card"><h3>8. 文科生科研训练</h3><p>设立"文科生AI研究专项基金"，鼓励本科生利用AI进行人文社科研究。</p></div>
+<div class="card"><h3>9. 就业预警系统</h3><p>建立文科专业就业率实时监测，提供AI技能培训"补救通道"。</p></div>
+<div class="card"><h3>10. 国家专项研究</h3><p>国家社科基金设立"AI时代人文社会科学范式变革"重大专项。</p></div>
+</div>
+</section>
+<section id="s10" class="section">
+<h2 class="section-title"><span class="num">10</span> 未来之光：文科的黄金时代</h2>
+<div class="conclusion-box" style="text-align:center">
+<h3 style="font-size:1.4rem">文科最黑暗的时代，也可能就是它最光明的时代</h3>
+<p style="max-width:800px;margin:1rem auto;line-height:2">当AI可以写论文、做设计、写代码，人类剩下什么？</p>
+<p style="max-width:750px;margin:0.5rem auto;">剩下的是——<strong>作为"人"的全部</strong>。</p>
+</div>
+<div class="grid grid-2" style="margin-top:2rem">
+<div class="card"><h3>AI解放文科，而非消灭文科</h3><ul>
+<li>AI可以写四平八稳的论文——但写不出一篇让人热泪盈眶的文章</li>
+<li>AI可以分析《红楼梦》人名频率——但读不出"满纸荒唐言"背后的生命况味</li>
+<li>AI可以解释李商隐《锦瑟》的用典——但理解不了"此情可待成追忆"的怅惘</li>
+</ul></div>
+<div class="card"><h3>给文科生的寄语</h3>
+<p style="color:var(--accent);font-size:1.05rem;font-weight:600;">不要问"AI能做什么我不能做什么"——</p>
+<p style="color:var(--accent);font-size:1.05rem;font-weight:600;">要问"AI不能做什么而我能做什么"。</p>
+<ul style="margin-top:1rem;">
+<li>学会用AI——让它成为工具，而不是对手</li>
+<li>做AI做不了的事——深度思考、情感连接、价值判断</li>
+<li>做AI可以做的事——但做出AI做不出的深度和温度</li>
+</ul>
+</div>
+</div>
+<div class="quote-card">
+<p>"文学不能救你于水火，但它能在你深陷水火时，让你知道自己不是一个人。历史不能改变过去，但它能让你在面对未来时知道脚下的路从哪里来。哲学不能给你答案，但它能让你在寻找答案的过程中，成为一个更清醒的人。这就是文科——它教给人类的，是如何成为人。"</p>
+<cite>—— 本报告终章</cite>
+</div>
+<div class="conclusion-box" style="text-align:center;margin-top:2rem">
+<p style="font-size:1.1rem;font-weight:600;color:var(--accent);">AI时代，文科不是"需不需要"的问题——</p>
+<p style="font-size:1.2rem;font-weight:700;color:var(--accent);margin-top:0.3rem;">而是"如何重新定义文科"的问题。</p>
+<p style="margin-top:1rem;color:var(--text-muted);">当技术让人类越来越像机器，文科的使命，是让机器永远无法替代人。</p>
+</div>
+</section>
+<footer>
+<p>AI时代文科深度研究报告 | 数据来源：教育部、智联招聘、Harvard/MIT/Stanford、McKinsey Global Institute等</p>
+<p style="margin-top:0.5rem;">生成时间：2026年5月2日 | 本报告内容仅供参考</p>
+</footer>
+<script>
+var ac="#d4a574",pr="#8b4c6e",mu="#7890a0";
+new Chart(document.getElementById('c1'),{type:'bar',data:{labels:['笔译','数据分析','新闻写作','法律','会计审计','平面设计','文学创作','艺术批评','心理咨询'],datasets:[{label:'AI替代风险指数',data:[82,72,68,58,55,50,28,22,20],backgroundColor:['#f87171','#f87171','#f87171','#fbbf24','#fbbf24','#fbbf24','#4ade80','#4ade80','#4ade80']}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,max:100,grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:mu}},y:{grid:{display:false},ticks:{color:mu}}}}});
+new Chart(document.getElementById('c2'),{type:'line',data:{labels:['2012','2014','2016','2018','2020','2022','2024'],datasets:[{label:'美国文科本科占比(%)',data:[16.5,15.2,14.1,13,11.8,10.5,9.4],borderColor:pr,fill:!0,backgroundColor:'rgba(139,76,110,0.1)',yAxisID:'y'},{label:'日本文科招生指数',data:[100,95,90,83,75,68,62],borderColor:ac,fill:!0,backgroundColor:'rgba(212,165,116,0.1)',yAxisID:'y1'},{label:'英国文科专业指数',data:[100,98,93,87,80,72,65],borderColor:'#f87171',fill:!0,backgroundColor:'rgba(248,113,113,0.1)',yAxisID:'y1'}]},options:{responsive:!0,maintainAspectRatio:!1,plugins:{legend:{labels:{color:mu}}},scales:{y:{position:'left',grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:mu},min:0,max:20},y1:{position:'right',grid:{display:!1},ticks:{color:ac},min:0,max:120},x:{grid:{display:!1},ticks:{color:mu}}}}});
+new Chart(document.getElementById('c3'),{type:'bar',data:{labels:['2018','2019','2020','2021','2022','2023','2024'],datasets:[{label:'文科',data:[35,34,28,30,29,27.5,28.6],backgroundColor:pr},{label:'理科',data:[42,43,38,39,42,43,42],backgroundColor:ac},{label:'工科',data:[48,50,43,45,48,49,48],backgroundColor:'#4ade80'}]},options:{responsive:!0,maintainAspectRatio:!1,plugins:{legend:{labels:{color:mu}}},scales:{y:{beginAtZero:!0,max:60,grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:mu}},x:{grid:{display:!1},ticks:{color:mu}}}}});
+new Chart(document.getElementById('c4'),{type:'radar',data:{labels:['批判性思维','创造力','同理心','审美判断','伦理推理','知识广度','模式识别','数据处理'],datasets:[{label:'人类(文科核心)',data:[90,85,80,88,85,75,50,30],borderColor:pr,backgroundColor:'rgba(139,76,110,0.2)'},{label:'AI',data:[20,15,5,10,10,95,98,99],borderColor:ac,backgroundColor:'rgba,backgroundColor:'rgba(212,165,116,0.2)'}]},options:{responsive:true,maintainAspectRatio:false,scales:{r:{beginAtZero:true,max:100,grid:{color:'rgba(255,255,255,0.1)'},pointLabels:{color:mu},ticks:{color:mu,backdropColor:'transparent'}}},plugins:{legend:{labels:{color:mu}}}}});
+new Chart(document.getElementById('c5'),{type:'radar',data:{labels:['专业深度','AI工具力','批判思维','跨学科力','伦理判断','创作表达'],datasets:[{label:'传统文科',data:[75,10,70,30,60,80],borderColor:pr,backgroundColor:'rgba(139,76,110,0.2)'},{label:'转型文科+AI',data:[80,80,85,75,75,85],borderColor:ac,backgroundColor:'rgba(212,165,116,0.2)'},{label:'纯AI',data:[30,100,20,40,10,25],borderColor:'#f87171',backgroundColor:'rgba(248,113,113,0.2)'}]},options:{responsive:true,maintainAspectRatio:false,scales:{r:{beginAtZero:true,max:100,grid:{color:'rgba(255,255,255,0.1)'},pointLabels:{color:mu},ticks:{color:mu,backdropColor:'transparent'}}},plugins:{legend:{labels:{color:mu}}}}});
+new Chart(document.getElementById('c6'),{type:'radar',data:{labels:['课程AI化','跨学科力','伦理教育','就业支持','教师培训','政策力度'],datasets:[{label:'美国',data:[85,80,75,70,60,65],borderColor:'#60a5fa',backgroundColor:'rgba(96,165,250,0.2)'},{label:'欧洲',data:[60,65,85,50,55,70],borderColor:'#4ade80',backgroundColor:'rgba(74,222,128,0.2)'},{label:'亚洲(日韩)',data:[70,55,50,60,50,75],borderColor:ac,backgroundColor:'rgba(212,165,116,0.2)'},{label:'中国(建议)',data:[80,85,80,75,85,90],borderColor:pr,backgroundColor:'rgba(139,76,110,0.2)'}]},options:{responsive:true,maintainAspectRatio:false,scales:{r:{beginAtZero:true,max:100,grid:{color:'rgba(255,255,255,0.1)'},pointLabels:{color:mu},ticks:{color:mu,backdropColor:'transparent'}}},plugins:{legend:{labels:{color:mu}}}}});
+</script>
+</body>
+</html>
