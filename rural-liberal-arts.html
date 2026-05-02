@@ -1,0 +1,257 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>浜哄伐鏅鸿兘鏃朵唬锛屽啘鏉戞枃绉戠澹爺绌剁敓璇ヤ綍鍘讳綍浠庯紵</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<style>
+:root{--primary:#1a1a2e;--secondary:#16213e;--accent:#e94560;--gold:#f5a623;--teal:#0f9b8e;--card:#1e2747;--text:#e8e8e8;--muted:#8892b0;--g1:#e94560;--g2:#f5a623;--g3:#0f9b8e;--g4:#6c5ce7;--g5:#00b4d8}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Noto Sans SC',sans-serif;background:var(--primary);color:var(--text);line-height:1.9;overflow-x:hidden}
+#progress-bar{position:fixed;top:0;left:0;width:0;height:3px;background:linear-gradient(90deg,var(--g1),var(--g2),var(--g3));z-index:9999;transition:width 0.3s}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2rem;position:relative;background:linear-gradient(135deg,#0a0a1a 0%,#1a1a3e 50%,#0a0a1a 100%)}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 30%,rgba(233,69,96,0.08) 0%,transparent 60%)}
+.hero h1{font-size:clamp(1.8rem,5vw,3.2rem);background:linear-gradient(135deg,#fff,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;max-width:900px;line-height:1.4;position:relative;z-index:1}
+.hero .subtitle{font-size:clamp(1rem,2vw,1.3rem);color:var(--muted);margin-top:1.5rem;max-width:700px;position:relative;z-index:1}
+.hero .meta{margin-top:2rem;color:var(--muted);font-size:0.9rem;display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;position:relative;z-index:1}
+.hero .meta span{padding:0.4rem 1rem;background:rgba(255,255,255,0.05);border-radius:20px}
+.scroll-indicator{position:absolute;bottom:2rem;animation:bounce 2s infinite;z-index:1;color:var(--muted);font-size:1.5rem}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.toc{position:fixed;top:50%;right:0.5rem;transform:translateY(-50%);z-index:100;display:flex;flex-direction:column;gap:0.3rem}
+.toc a{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.2);transition:all 0.3s;text-decoration:none}
+.toc a.active,.toc a:hover{background:var(--g1);transform:scale(1.5)}
+.toc a .tooltip{position:absolute;right:20px;background:rgba(0,0,0,0.8);color:#fff;padding:0.3rem 0.6rem;border-radius:4px;font-size:0.7rem;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity 0.3s}
+.toc a:hover .tooltip{opacity:1}
+.container{max-width:900px;margin:0 auto;padding:2rem 1.5rem}
+.section{padding:4rem 0;opacity:0;transform:translateY(30px);transition:all 0.6s ease-out}
+.section.visible{opacity:1;transform:translateY(0)}
+.section-title{font-size:clamp(1.4rem,3vw,2rem);background:linear-gradient(135deg,var(--gold),var(--g1));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:2rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;gap:0.8rem}
+.section-subtitle{font-size:1.2rem;color:var(--gold);margin:1.5rem 0 1rem;font-weight:600}
+.card{background:var(--card);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;border-left:3px solid;transition:transform 0.3s}
+.card:hover{transform:translateX(5px)}
+.card-red{border-color:var(--g1)}.card-gold{border-color:var(--g2)}.card-teal{border-color:var(--g3)}.card-purple{border-color:var(--g4)}.card-blue{border-color:var(--g5)}
+.chart-container{background:var(--card);border-radius:12px;padding:1.5rem;margin:2rem 0}
+.chart-container canvas{max-height:400px}
+.chart-title{text-align:center;color:var(--text);font-size:1rem;margin-bottom:1rem;font-weight:500}
+.chart-source{text-align:right;color:var(--muted);font-size:0.75rem;margin-top:0.5rem;font-style:italic}
+.data-box{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:2rem 0}
+.data-item{background:var(--card);border-radius:12px;padding:1.5rem;text-align:center;border-top:3px solid var(--g1)}
+.data-item .number{font-size:2.2rem;font-weight:800;background:linear-gradient(135deg,var(--gold),var(--g1));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.data-item .label{color:var(--muted);font-size:0.85rem;margin-top:0.5rem}
+.data-item .source{color:var(--muted);font-size:0.7rem;margin-top:0.3rem}
+.quote{background:rgba(245,166,35,0.08);border-left:4px solid var(--gold);padding:1.2rem 1.5rem;margin:1.5rem 0;border-radius:0 8px 8px 0;font-style:italic;color:#ccc}
+.quote .author{text-align:right;color:var(--gold);font-size:0.85rem;margin-top:0.5rem;font-style:normal}
+p{margin-bottom:1.2rem;text-indent:2em}
+p.no-indent{text-indent:0}
+.highlight{color:var(--gold);font-weight:600}
+.highlight-red{color:var(--g1);font-weight:600}
+.highlight-teal{color:var(--teal);font-weight:600}
+.table-wrap{overflow-x:auto;margin:1.5rem 0}
+table{width:100%;border-collapse:collapse;font-size:0.9rem}
+th{background:rgba(233,69,96,0.2);color:var(--gold);padding:0.8rem;text-align:left;font-weight:600}
+td{padding:0.7rem 0.8rem;border-bottom:1px solid rgba(255,255,255,0.05)}
+tr:hover td{background:rgba(255,255,255,0.03)}
+.tag{display:inline-block;padding:0.2rem 0.6rem;border-radius:4px;font-size:0.8rem;margin:0.15rem}
+.tag-red{background:rgba(233,69,96,0.2);color:var(--g1)}
+.tag-gold{background:rgba(245,166,35,0.2);color:var(--gold)}
+.tag-teal{background:rgba(15,155,142,0.2);color:var(--teal)}
+.tag-purple{background:rgba(108,92,231,0.2);color:var(--g4)}
+.flow-chart{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0.5rem;margin:2rem 0}
+.flow-node{background:var(--card);border-radius:8px;padding:0.8rem 1rem;text-align:center;min-width:100px;font-size:0.85rem;border:1px solid rgba(255,255,255,0.1)}
+.flow-node.red{border-color:var(--g1)}.flow-node.gold{border-color:var(--g2)}.flow-node.teal{border-color:var(--g3)}
+.flow-arrow{color:var(--muted);font-size:1.5rem}
+.conclusion-box{background:linear-gradient(135deg,rgba(233,69,96,0.1),rgba(245,166,35,0.1));border:1px solid rgba(245,166,35,0.3);border-radius:12px;padding:2rem;margin:2rem 0}
+.conclusion-box h3{color:var(--gold);margin-bottom:1rem}
+.strategy-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;margin:2rem 0}
+.strategy-card{background:var(--card);border-radius:12px;padding:1.5rem;text-align:center;transition:transform 0.3s}
+.strategy-card:hover{transform:translateY(-5px)}
+.strategy-card .icon{font-size:2.5rem;margin-bottom:0.8rem}
+.strategy-card h4{color:var(--gold);margin-bottom:0.5rem;font-size:1rem}
+.strategy-card p{color:var(--muted);font-size:0.85rem;text-indent:0}
+.footer{text-align:center;padding:3rem 1rem;color:var(--muted);font-size:0.85rem;border-top:1px solid rgba(255,255,255,0.05)}
+@media(max-width:768px){.toc{display:none}.container{padding:1rem}.data-box{grid-template-columns:1fr 1fr}.flow-chart{flex-direction:column}.flow-arrow{transform:rotate(90deg)}}
+</style>
+</head>
+<body><div id="progress-bar"></div><nav class="toc" id="toc"></nav>
+
+<section class="hero">
+<h1>浜哄伐鏅鸿兘鏃朵唬锛屽啘鏉戞枃绉戠澹爺绌剁敓<br>璇ヤ綍鍘讳綍浠庯紵</h1>
+<p class="subtitle">涓€椤瑰熀浜庡缁磋瑙掔殑娣卞害鐮旂┒鈥斺€旀暣鍚堢ぞ浼氬銆佹暀鑲茬粡娴庡銆佸姵鍔ㄧ粡娴庡涓嶢I浜ゅ弶瀛︾鍒嗘瀽妗嗘灦</p>
+<div class="meta"><span>馃搮 2026骞?鏈?/span><span>馃搳 缁煎悎鐮旂┒鎶ュ憡</span><span>馃幆 闈㈠悜鏀跨瓥鍒跺畾鑰呬笌鏁欒偛宸ヤ綔鑰?/span></div>
+<div class="scroll-indicator">鈱?鍚戜笅婊氬姩 鈱?/div>
+</section>
+
+<div class="container">
+
+<div class="section visible" id="summary">
+<h2 class="section-title"><span class="num">鈼?/span> 鐮旂┒鎽樿</h2>
+<p class="no-indent">鏈爺绌舵姤鍛婅仛鐒︿簬涓€涓揣杩€屾繁鍒荤殑绀句細闂锛氬湪浜哄伐鏅鸿兘鎶€鏈寚鏁扮骇鍙戝睍鐨勬椂浠ｈ儗鏅笅锛屾潵鑷啘鏉戠殑鏂囩纭曞＋鐮旂┒鐢熺兢浣撻潰涓存€庢牱鐨勭粨鏋勬€у洶澧冿紵鍙堣璧板悜浣曟柟锛熺爺绌剁患鍚堣繍鐢ㄦ暀鑲茬粡娴庡銆佸姵鍔ㄧ粡娴庡銆佺ぞ浼氬涓庝汉宸ユ櫤鑳戒氦鍙夊绉戠殑鐞嗚妗嗘灦锛屽熀浜庡浗瀹剁粺璁″眬銆佹暀鑲查儴銆佷笘鐣岀粡娴庤鍧涖€侀害鑲敗鍏ㄧ悆鐮旂┒闄㈢瓑鏉冨▉鏁版嵁婧愶紝缁撳悎娣卞害妗堜緥鍒嗘瀽锛岃瘯鍥句负杩欎竴缇や綋鎻忕粯涓€鏉″吋鍏风幇瀹炲彲琛屾€т笌鏈潵鍓嶇灮鎬х殑绐佸洿璺緞銆?/p>
+<div class="data-box">
+<div class="data-item"><div class="number">1179涓?/div><div class="label">2024骞村叏鍥介珮鏍℃瘯涓氱敓</div><div class="source">鏁欒偛閮?/div></div>
+<div class="data-item"><div class="number">~45%</div><div class="label">鏂囩绫讳笓涓氬崰姣?/div><div class="source">鏁欒偛閮ㄧ粺璁?/div></div>
+<div class="data-item"><div class="number">~65%</div><div class="label">鏈鐢熶腑鍐滄潙鐢熸簮姣斾緥</div><div class="source">涓浗鏁欒偛缁熻骞撮壌</div></div>
+<div class="data-item"><div class="number">~40%</div><div class="label">AI鍙浛浠ｇ殑鏂囩宸ヤ綔浠诲姟</div><div class="source">McKinsey Global Institute</div></div>
+</div>
+<p><strong>鏍稿績鍙戠幇锛?/strong>鍐滄潙鏂囩纭曞＋鐮旂┒鐢熸澶勪簬<span class="highlight-red">"涓夐噸鎸ゅ帇"</span>鐨勬牳蹇冣€斺€斾汉宸ユ櫤鑳界殑鎶€鏈浛浠ｉ闄┿€佹枃绉戜笓涓氱殑缁撴瀯鎬ц船鍊艰秼鍔裤€佷互鍙婂煄涔′簩鍏冪粨鏋勫甫鏉ョ殑璧勬簮绂€璧嬪姡鍔裤€傜爺绌跺悓鏃跺彂鐜帮紝鍐滄潙鏂囩纭曞＋鐢熸嫢鏈夌殑鐙壒鍦ㄥ湴鎬х煡璇嗐€佸鍩哄眰绀句細鐨勬繁鍒荤悊瑙ｄ互鍙婁埂鏉戞尟鍏存垬鐣ュ甫鏉ョ殑鍒跺害绾㈠埄锛屾瀯鎴愪簡鍏朵笉鍙浛浠ｇ殑姣旇緝浼樺娍銆傚嚭璺笉鍦ㄤ簬"閫冪鏂囩"鎴?杞爜"锛岃€屽湪浜庡疄鐜颁粠"鐭ヨ瘑娑堣垂鑰?鍒?浠峰€煎垱閫犺€?鐨勮鑹茶浆鍨嬶紝鍦ˋI涓庝汉鏂囩殑浜ゅ弶鍦板甫寮€杈熸柊璧涢亾銆?/p>
+</div>
+
+<div class="section" id="ch1">
+<h2 class="section-title"><span class="num">01</span> 鐮旂┒鑳屾櫙涓庢柟娉曡</h2>
+<h3 class="section-subtitle">1.1 鐮旂┒缂樿捣</h3>
+<p>2025骞达紝涓浗楂樼瓑鏁欒偛姣涘叆瀛︾巼宸茶秴杩?0%锛岃繘鍏ユ櫘鍙婂寲娣卞害鍙戝睍闃舵銆?024骞村叏鍥介珮鏍℃瘯涓氱敓浜烘暟杈惧埌1179涓囦汉锛屽垱鍘嗗彶鏂伴珮銆傚湪鐮旂┒鐢熷眰闈紝2023骞村叏鍥界爺绌剁敓鎷涚敓瓒呰繃130涓囦汉锛屽叾涓澹敓绾?15涓囷紝鏂囩绫诲崰姣旂害40%-45%銆?/p>
+<p>涓庢骞惰鐨勫彟涓€鏉′富绾挎槸锛氫汉宸ユ櫤鑳芥妧鏈殑鍔犻€熸笚閫忔鍦ㄤ互鍓嶆墍鏈湁鐨勫姏搴﹂噸濉戝姵鍔ㄥ姏甯傚満銆?025骞碠penAI鍙戝竷GPT-5锛屽叾鎺ㄧ悊鑳藉姏鏄捐憲鎻愬崌锛屽湪缈昏瘧銆佹硶寰嬫枃涔﹁捣鑽夈€佸熀纭€缂栫▼銆佹暟鎹垎鏋愮瓑棰嗗煙鐨勮〃鐜板凡鎺ヨ繎鐢氳嚦瓒呰秺浜虹被鍏ラ棬姘村钩銆傞害鑲敗鍏ㄧ悆鐮旂┒闄?024骞存姤鍛婃寚鍑猴紝鍒?030骞碅I鍙兘鏇夸唬鍏ㄧ悆绾?浜夸釜宸ヤ綔宀椾綅涓殑30%宸ヤ綔浠诲姟銆備笘鐣岀粡娴庤鍧涖€?025骞存湭鏉ュ氨涓氭姤鍛娿€嬭繘涓€姝ラ獙璇佷簡杩欎竴瓒嬪娍銆?/p>
+<p>褰撹繖涓ゆ潯涓荤嚎浜ゆ眹锛屼竴涓壒娈婄殑缇や綋鈥斺€?strong>鏉ヨ嚜鍐滄潙鐨勬枃绉戠澹爺绌剁敓</strong>鈥斺€旇鎺ㄥ埌浜嗙粨鏋勬€у洶澧冪殑椋庡彛娴皷銆?/p>
+<div class="chart-container"><div class="chart-title">鍥?锛?019-2025骞村叏鍥介珮鏍℃瘯涓氱敓浜烘暟鍙樺寲瓒嬪娍</div><canvas id="chart1"></canvas><div class="chart-source">鏁版嵁鏉ユ簮锛氭暀鑲查儴鍘嗗勾銆婂叏鍥芥暀鑲蹭簨涓氬彂灞曠粺璁″叕鎶ャ€?/div></div>
+<h3 class="section-subtitle">1.2 鐞嗚妗嗘灦</h3>
+<div class="card card-teal"><p class="no-indent"><strong>锛堜竴锛変汉鍔涜祫鏈悊璁?/strong>鈥斺€旀暀鑲叉姇璧勭殑浠峰€煎彇鍐充簬鍔冲姩鍔涘競鍦虹殑鍥炴姤鐜囥€傚綋AI闄嶄綆鐗瑰畾鎶€鑳界殑甯傚満浠峰€兼椂锛岀浉鍏充汉鍔涜祫鏈潰涓?璐€?椋庨櫓銆?/p></div>
+<div class="card card-red"><p class="no-indent"><strong>锛堜簩锛夋妧鏈€уけ涓氱悊璁?/strong>锛圞eynes, 1930; Autor, 2015锛夆€斺€擜I鏃朵唬鐨勭壒娈婃€у湪浜庯紝瀹冧笉浠呮浛浠ｄ綋鍔涘姵鍔紝鏇村紑濮嬫浛浠ｈ鐭ュ姵鍔紝瀵规枃绉戝矖浣嶅舰鎴愮郴缁熸€у啿鍑汇€?/p></div>
+<div class="card card-gold"><p class="no-indent"><strong>锛堜笁锛夋枃鍖栧啀鐢熶骇鐞嗚</strong>锛圔ourdieu, 1970锛夆€斺€斿啘鏉戝鐢熷嵆浣垮湪鏁欒偛绯荤粺涓彇寰楁垚鍔燂紝浠嶅彲鑳藉洜缂轰箯"闅愭€х煡璇?鍜岀ぞ浼氳祫鏈€屽湪鍔冲姩鍔涘競鍦轰腑澶勪簬鍔ｅ娍銆?/p></div>
+<div class="card card-purple"><p class="no-indent"><strong>锛堝洓锛夎兘鍔涙柟娉曠悊璁?/strong>锛圫en, 1999; Nussbaum, 2011锛夆€斺€斿彂灞曠殑鏍稿績涓嶆槸瀛﹀巻鎴栨敹鍏ワ紝鑰屾槸浜轰滑瀹為檯"鑳藉鍋氫粈涔堝拰鎴愪负浠€涔?鐨勮兘鍔涢泦鍚堛€?/p></div>
+</div>
+
+<div class="section" id="ch2">
+<h2 class="section-title"><span class="num">02</span> 缇や綋鐢诲儚锛氬啘鏉戞枃绉戠澹爺绌剁敓鐨勭粨鏋勬€х壒寰?/h2>
+<h3 class="section-subtitle">2.1 "瀵掗棬璐靛瓙"鐨勫洶澧冨欢缁?/h3>
+<p>涓浗绀句細绉戝闄?023骞寸殑鐮旂┒鏄剧ず锛氬湪985楂樻牎涓紝鍐滄潙鐢熸簮鍗犳瘮绾?0%-35%锛涜€屽湪鍦版柟鏈闄㈡牎涓紝鍐滄潙鐢熸簮鍗犳瘮鍙揪60%浠ヤ笂銆傚湪涓撲笟鍒嗗竷涓婏紝鍐滄潙瀛︾敓鍦ㄦ枃鍙插摬銆佹暀鑲层€佹硶寰嬬瓑涓撲笟涓殑姣斾緥鏄捐憲楂樹簬鐞嗗伐绉戔€斺€斿舰鎴?鍙岄噸寮卞娍"銆?/p>
+<div class="chart-container"><div class="chart-title">鍥?锛氫笉鍚屽眰娆￠珮鏍″啘鏉戠敓婧愬崰姣斾笌涓撲笟鍒嗗竷</div><canvas id="chart2"></canvas><div class="chart-source">鏉ユ簮锛氫腑鍥界ぞ浼氱瀛﹂櫌銆婁腑鍥界ぞ浼氱姸鍐电患鍚堣皟鏌ャ€嬶紙2023锛?/div></div>
+<h3 class="section-subtitle">2.2 灏变笟鍥板鐨勭粨鏋勬€х壒寰?/h3>
+<p>鏁欒偛閮ㄦ暟鎹樉绀猴紝2023灞婃枃绉戠澹瘯涓氱敓鍒濇灏变笟鐜囩害82%锛屼綆浜庣悊宸ョ纭曞＋鐨?1%銆備絾985楂樻牎鏂囩纭曞＋灏变笟鐜囧彲杈?0%浠ヤ笂锛岃€屽湴鏂规櫘閫氶珮鏍℃枃绉戠澹氨涓氱巼鍙兘浣庤嚦70%浠ヤ笅銆傛櫤鑱旀嫑鑱樻暟鎹樉绀猴紝2024灞婃枃绉戠澹瘯涓氱敓涓紝绾?5%浠庝簨涓庝笓涓氫笉鐩存帴鐩稿叧鐨勫伐浣滐紝璧疯柂涓綅鏁扮害6500鍏?鏈堛€?/p>
+<h3 class="section-subtitle">2.3 "楂樺鍘喡蜂綆璧勬湰"鐨勬倴璁?/h3>
+<p>甯冭开鍘勭殑鏂囧寲璧勬湰鐞嗚鎸囧嚭锛屽啘鏉戞枃绉戠澹敓鑾峰緱浜嗗埗搴﹀寲鐨勬枃鍖栬祫鏈紙纭曞＋瀛︿綅璇佷功锛夛紝浣嗗湪鍏蜂綋鍖栫殑鏂囧寲璧勬湰鍜岀ぞ浼氳祫鏈柟闈紝涓庡煄甯傚嚭韬殑鍚岄緞浜哄瓨鍦ㄦ樉钁楀樊璺濄€傝繖涓€宸窛鍦ˋI鏃朵唬琚繘涓€姝ユ斁澶с€?/p>
+</div>
+
+<div class="section" id="ch3">
+<h2 class="section-title"><span class="num">03</span> AI鏃朵唬鏂囩灏变笟鐨勭粨鏋勬€у啿鍑?/h2>
+<h3 class="section-subtitle">3.1 AI鏇夸唬鐨?浠诲姟妗嗘灦"</h3>
+<p>鐞嗚ВAI瀵瑰氨涓氱殑褰卞搷锛屽叧閿湪浜庝粠"宀椾綅鏇夸唬"杞悜"浠诲姟鏇夸唬"瑙嗚锛圓utor, 2015锛夈€侫I涓嶆槸绠€鍗曞湴鏇夸唬鏌愪釜鑱屼笟锛岃€屾槸鏇夸唬璇ヨ亴涓氫腑鐨勭壒瀹氫换鍔°€?/p>
+<div class="chart-container"><div class="chart-title">鍥?锛氭枃绉戝吀鍨嬪矖浣嶄腑AI鍙浛浠ｄ换鍔″崰姣旇瘎浼?/div><canvas id="chart3"></canvas><div class="chart-source">璇勪及渚濇嵁锛歁cKinsey Global Institute (2024); OpenAI GPT-5鎶€鏈姤鍛?/div></div>
+<h3 class="section-subtitle">3.2 鏂囩涓撲笟鍙楀啿鍑荤▼搴?/h3>
+<div class="table-wrap"><table><tr><th>涓撲笟</th><th>AI鏇夸唬椋庨櫓</th><th>鏍稿績鍘熷洜</th></tr>
+<tr><td>缈昏瘧/澶栬</td><td><span class="tag tag-red">鏋侀珮</span></td><td>GPT-5澶氳瑷€缈昏瘧宸茶揪涓撲笟姘村钩</td></tr>
+<tr><td>鏂伴椈浼犳挱</td><td><span class="tag tag-red">楂?/span></td><td>AI鏂伴椈鍐欎綔宸插ぇ瑙勬ā搴旂敤</td></tr>
+<tr><td>浼氳/璐㈠姟</td><td><span class="tag tag-red">楂?/span></td><td>鍩虹璁拌处銆佹姤琛ㄧ敓鎴愬凡琚獳I鏇夸唬</td></tr>
+<tr><td>娉曞</td><td><span class="tag tag-gold">涓珮</span></td><td>鍚堝悓瀹℃煡銆佹硶寰嬫绱㈠凡楂樺害鑷姩鍖?/td></tr>
+<tr><td>姹夎瑷€鏂囧</td><td><span class="tag tag-gold">涓珮</span></td><td>鏍囧噯鍖栧啓浣滃彲AI鍖栵紝娣卞害鍒嗘瀽淇濅紭鍔?/td></tr>
+<tr><td>鏁欒偛瀛?/td><td><span class="tag tag-gold">涓?/span></td><td>鐭ヨ瘑浼犳巿鍙疉I鍖栵紝浣嗚偛浜轰笉鍙浛浠?/td></tr>
+<tr><td>鍏叡绠＄悊</td><td><span class="tag tag-gold">涓?/span></td><td>绋嬪簭鎬у伐浣滃彲AI鍖栵紝鍏叡鏈嶅姟涓嶅彲鏇夸唬</td></tr>
+<tr><td>鍘嗗彶/鍝插</td><td><span class="tag tag-teal">涓綆</span></td><td>娣卞害鎬濊鲸鍜屼汉鏂囧叧鎬€涓嶅彲鏇夸唬</td></tr>
+<tr><td>绀句細瀛?/td><td><span class="tag tag-teal">涓綆</span></td><td>鐢伴噹璋冩煡闇€瑕佹繁搴︿汉闄呬簰鍔?/td></tr>
+</table></div>
+<h3 class="section-subtitle">3.3 "鍙岄噸鎸ゅ帇"鏁堝簲</h3>
+<div class="flow-chart"><div class="flow-node red"><strong>涓婂眰鎸ゅ帇</strong><br>AI鏇夸唬鏍囧噯鍖?br>璁ょ煡宸ヤ綔</div><span class="flow-arrow">鈫?/span><div class="flow-node gold"><strong>涓眰鎸ゅ帇</strong><br>鏂囩宀椾綅鍑忓皯<br>绔炰簤鐧界儹鍖?/div><span class="flow-arrow">鈫?/span><div class="flow-node teal"><strong>涓嬪眰鎸ゅ帇</strong><br>琚揩闄嶇淮杩涘叆<br>闈炰笓涓氬矖浣?/div></div>
+<p>AI鐩存帴鏇夸唬浜嗗ぇ閲忓垵绾у拰涓骇鏂囪亴宸ヤ綔锛涘嵆浣挎湭琚洿鎺ユ浛浠ｇ殑宀椾綅锛屼篃瀵逛粠涓氳€呮彁鍑轰簡AI鍗忎綔銆佹暟鎹垎鏋愮瓑鏂拌姹傦紱渚涢渶澶辫　瀵艰嚧鏂囩姣曚笟鐢熻杩悜涓嬬珵浜夛紝褰㈡垚"瀛﹀巻閫氳儉"銆?/p>
+</div>
+
+<div class="section" id="ch4">
+<h2 class="section-title"><span class="num">04</span> 鍩庝埂鏁板瓧楦挎矡锛氱疮绉€у姡鍔垮垎鏋?/h2>
+<h3 class="section-subtitle">4.1 鏁板瓧楦挎矡鐨勪笁閲嶇淮搴?/h3>
+<div class="chart-container"><div class="chart-title">鍥?锛氬煄涔℃暟瀛楅缚娌熺殑澶氱淮搴︽祴閲?/div><canvas id="chart4"></canvas><div class="chart-source">鏉ユ簮锛欳NNIC銆婁腑鍥戒簰鑱旂綉缁滃彂灞曠姸鍐电粺璁℃姤鍛娿€?/div></div>
+<p><strong>鎺ュ叆楦挎矡锛?/strong>涓浗鍐滄潙浜掕仈缃戞櫘鍙婄巼66.5%锛屼綆浜庡煄闀囩殑84.3%銆?strong>绱犲吇楦挎矡锛?/strong>鍐滄潙瀹跺涵鐖舵瘝瀵笰I鐨勮鐭ュ拰浣跨敤鑳藉姏鏅亶杈冧綆锛岄毦浠ュ湪鑱屼笟瑙勫垝涓婃彁渚涙湁鏁堟寚瀵笺€?strong>瀛︿範楦挎矡锛?/strong>鍐滄潙姣曚笟鐢熷洜缁忔祹鍘嬪姏銆佺ぞ浼氳祫鏈杽寮辩瓑鍥犵礌锛屽湪缁堣韩瀛︿範鏂归潰澶勪簬缁撴瀯鎬у姡鍔裤€?/p>
+</div>
+
+<div class="section" id="ch5">
+<h2 class="section-title"><span class="num">05</span> 鍒跺害鐜涓庢斂绛栦緵缁欏垎鏋?/h2>
+<h3 class="section-subtitle">5.1 鐮旂┒鐢熸暀鑲茬粨鏋勮皟鏁?/h3>
+<p>鏁欒偛閮ㄦ彁鍑哄埌2025骞村皢涓撲笟纭曞＋鎷涚敓姣斾緥鎻愬崌鑷?0%浠ヤ笂銆備絾鑻ヤ笓涓氱澹暀鑲蹭笉鑳藉強鏃惰瀺鍏I绱犲吇鍜屾暟瀛楀寲鎶€鑳藉煿鍏伙紝鍒?涓撲笟"鍚噾閲忎篃浼氳AI绋€閲娿€?/p>
+<h3 class="section-subtitle">5.2 涔℃潙鎸叴鎴樼暐鐨勭粨鏋勬€ф満閬?/h3>
+<div class="card card-teal"><p class="no-indent"><strong>鏈洪亣涓€锛氬熀灞傛不鐞?/strong>鈥斺€旀暟瀛椾埂鏉戝缓璁鹃渶瑕佹棦鎳傛枃绉戝張鎳傛暟瀛楀寲鐨勪汉鎵嶃€?/p></div>
+<div class="card card-gold"><p class="no-indent"><strong>鏈洪亣浜岋細涔℃潙鏁欒偛</strong>鈥斺€擜I鏃朵唬鐨勬暀鑲插叕骞抽渶瑕佺悊瑙ｄ埂鏉戝張鎳侫I鐨勬暀甯堛€?/p></div>
+<div class="card card-purple"><p class="no-indent"><strong>鏈洪亣涓夛細涔℃潙鏂囧寲浜т笟</strong>鈥斺€旈潪閬椾紶鎵夸笌鏂囧寲浜у搧鏁板瓧鍖栨槸"鎺ュ湴姘?楂樼鎶€"璧涢亾銆?/p></div>
+<div class="card card-red"><p class="no-indent"><strong>鏈洪亣鍥涳細鍏姟鍛樹笌閫夎皟鐢?/strong>鈥斺€?025骞村浗鑰冩姤鍚嶈秴300涓囷紝鏂囩鐢熷崰姣旂害60%銆?/p></div>
+<h3 class="section-subtitle">5.3 AI绱犲吇鏁欒偛鐨勬斂绛栨粸鍚?/h3>
+<p>鎴嚦2026骞达紝楂樻牎涓郴缁熷紑璁続I绱犲吇蹇呬慨璇剧殑鏂囩涓撲笟姣斾緥浠嶄笉瓒?0%銆?/p>
+<div class="chart-container"><div class="chart-title">鍥?锛氶珮鏍℃枃绉戜笓涓欰I绱犲吇璇剧▼瑕嗙洊鐜?/div><canvas id="chart5"></canvas><div class="chart-source">鏉ユ簮锛氫腑鍥介珮绛夋暀鑲插浼氥€婇珮鏍I鏁欒偛鍙戝睍鎶ュ憡銆?/div></div>
+</div>
+
+<div class="section" id="ch6">
+<h2 class="section-title"><span class="num">06</span> 鍥介檯姣旇緝涓庣粡楠屽€熼壌</h2>
+<h3 class="section-subtitle">6.1 缇庡浗锛氭枃绉戞暀鑲茬殑鍗辨満涓庨噸濉?/h3>
+<p>2015骞翠互鏉ワ紝缇庡浗楂樻牎浜烘枃瀛︾涓撲笟鏁伴噺涓嬮檷浜嗙害15%锛屼絾"鏁板瓧浜烘枃"锛圖igital Humanities锛変綔涓烘柊鍏翠氦鍙夐鍩熻繀閫熷礇璧枫€傛牳蹇冪粡楠岋細<span class="highlight">鏂囩涓嶆槸琚妧鏈浛浠ｏ紝鑰屾槸涓庢妧鏈瀺鍚?/span>銆?/p>
+<h3 class="section-subtitle">6.2 鏃ユ湰锛?鏂囩悊铻嶅悎"鐨勬暀鑲叉敼闈?/h3>
+<p>鏃ユ湰鑷?020骞磋捣鎺ㄨ"鏂囩悊铻嶅悎鍨?鏁欒偛鏀归潻锛屼笢浜ぇ瀛﹀紑璁?鏁欏吇瀛﹂儴"锛岃姹傛墍鏈夊鐢熷悓鏃朵慨璇讳汉鏂囦笌绉戝璇剧▼銆傚惎绀猴細璺ㄥ绉戣兘鍔涙垚涓烘柊鐨?鍩虹绱犲吇"銆?/p>
+<h3 class="section-subtitle">6.3 鍗板害锛氭暟瀛楀寲璧嬭兘涓庢暀鑲插叕骞?/h3>
+<p>鍗板害鏀垮簻閫氳繃SWAYAM銆丏IKSHA绛夊湪绾垮钩鍙颁负鍐滄潙瀛︾敓鎻愪緵鍏嶈垂鏁板瓧鍖栨妧鑳藉煿璁€傚彲鍊熼壌涔嬪锛氬埄鐢ˋI鎶€鏈湰韬殑鏅儬鎬ф潵寮ュ悎鏁板瓧楦挎矡銆?/p>
+<div class="chart-container"><div class="chart-title">鍥?锛氬洓鍥芥枃绉戠敓AI绱犲吇鏁欒偛鎶曞叆瀵规瘮</div><canvas id="chart6"></canvas><div class="chart-source">鏉ユ簮锛歄ECD銆婃暀鑲叉瑙堛€嬶紙2025锛?/div></div>
+<div class="card card-blue"><p class="no-indent"><strong>鏍稿績鍚ず锛?/strong>娌℃湁鍝釜鍙戣揪鍥藉閫夋嫨璁╂枃绉戠敓"杞"锛岃€屾槸鎺ㄥ姩鏂囩悊铻嶅悎銆傞棶棰樼殑鍏抽敭涓嶅湪浜?瀛︽枃绉戣繕鏄鎶€鏈?锛岃€屽湪浜庢垚涓?鎳侫I鐨勬枃绉戠敓"銆?/p></div>
+</div>
+
+<div class="section" id="ch7">
+<h2 class="section-title"><span class="num">07</span> 鍏稿瀷妗堜緥鍒嗘瀽</h2>
+<h3 class="section-subtitle">7.1 妗堜緥涓€锛氫粠涓枃纭曞＋鍒癆I璁粌甯?/h3>
+<p>鏉ヨ嚜娌冲崡鍐滄潙鐨勪腑鏂囩澹皬鏉庯紝2023骞存瘯涓氬悗缁忓巻浜嗗崐骞磋糠鑼€傚ス鍋剁劧鎺ヨЕAI鏁版嵁鏍囨敞琛屼笟锛屽嚟鍊熸墡瀹炵殑璇█鍔熷簳杩呴€熸垚闀夸负椤圭洰涓荤锛屾湀钖粠5000鍏冩定鑷?2000鍏冦€?strong>鍚ず锛?/strong>鏂囩涓撲笟鎶€鑳藉湪AI浜т笟閾句腑鏈夌嫭鐗圭殑搴旂敤鍦烘櫙銆?/p>
+<h3 class="section-subtitle">7.2 妗堜緥浜岋細浠庢硶寰嬬澹埌涔℃潙娉曟不鏁板瓧鍖栦笓鍛?/h3>
+<p>鏉ヨ嚜瑗块儴鍐滄潙鐨勬硶寰嬬澹皬寮狅紝鍙傚姞"涓夋敮涓€鎵?椤圭洰鍥炲埌鍘垮煄锛屽埄鐢ㄦ硶寰嬬煡璇嗗拰AI鏂囦功宸ュ叿涓哄啘姘戞彁渚涙硶寰嬫湇鍔°€?strong>鍚ず锛?/strong>涔℃潙鎸叴涓哄啘鏉戞枃绉戠澹彁渚涗簡鐙壒鐨?鍒跺害鎬ч€氶亾"銆?/p>
+<h3 class="section-subtitle">7.3 妗堜緥涓夛細浠庢暀鑲插纭曞＋鍒癆I鏁欒偛浜у搧缁忕悊</h3>
+<p>鏉ヨ嚜婀栧寳鍐滄潙鐨勬暀鑲插纭曞＋灏忕帇锛岃嚜瀛ython鍜屾暟鎹彲瑙嗗寲鍚庡姞鍏ユ暀鑲茬鎶€鍏徃锛岃礋璐I鑷€傚簲瀛︿範绯荤粺鐨勫唴瀹硅璁°€?strong>鍚ず锛?/strong>鏂囩纭曞＋涓嶉渶瑕?杞爜"锛岃€屽簲鎴愪负杩炴帴鎶€鏈笌浜烘枃鐨?缈昏瘧鑰?銆?/p>
+<div class="conclusion-box"><h3>鍏辨€х粨璁?/h3><p style="text-align:center;font-size:1.3rem;color:var(--gold);font-weight:700;text-indent:0;">鏂囩涓撲笟搴曡暣 + AI宸ュ叿鑳藉姏 + 宸紓鍖栬禌閬?= 涓嶅彲鏇夸唬绔炰簤鍔?/p></div>
+</div>
+
+<div class="section" id="ch8">
+<h2 class="section-title"><span class="num">08</span> 杞瀷鍥板涓庤鐭ュ亸宸?/h2>
+<h3 class="section-subtitle">8.1 涓夊ぇ杞瀷鍥板</h3>
+<div class="card card-red"><p class="no-indent"><strong>缁忔祹鍘嬪姏锛?/strong>鍐滄潙瀹跺涵瀵圭澹瘯涓氱敓鏈夐珮缁忔祹鍥炴姤棰勬湡锛屼娇寰?鍏堝涔犲啀杞瀷"鐨勮矾寰勯毦浠ラ€夋嫨銆?/p></div>
+<div class="card card-gold"><p class="no-indent"><strong>鑷垜璁ょ煡杩峰け锛?/strong>纭曞＋瀛﹀巻涓嶆効浠庝簨鍩虹宸ヤ綔锛孉I鏃朵唬鑳藉姏瑕佹眰鍙堣浜哄姏涓嶄粠蹇冦€?/p></div>
+<div class="card card-purple"><p class="no-indent"><strong>杞瀷鏀寔缂哄け锛?/strong>閽堝鏂囩纭曞＋鐨凙I鎶€鑳藉煿璁拰灏变笟鏀寔鍑犱箮绌虹櫧銆?/p></div>
+<h3 class="section-subtitle">8.2 闇€瑕佺籂姝ｇ殑鍥涚璁ょ煡鍋忓樊</h3>
+<p><strong>鍋忓樊涓€锛?/strong>"鏂囩鏃犵敤璁?鈥斺€擜I瓒婂彂灞曪紝浜烘枃鍏虫€€銆佹壒鍒ゆ€ф€濈淮銆佷鸡鐞嗗垽鏂殑浠峰€艰秺楂樸€?strong>鍋忓樊浜岋細</strong>"杞爜鏄敮涓€鍑鸿矾"鈥斺€旂湡姝ｆ湁鍓嶆櫙鐨勬槸鎴愪负"AI鏃朵唬鐨勬枃绉戜汉鎵?銆?strong>鍋忓樊涓夛細</strong>"澶у煄甯傛墠鏄ソ宸ヤ綔"鈥斺€斾笅娌夊競鍦轰笉鏄€€鑰屾眰鍏舵锛岃€屾槸钃濇捣銆?strong>鍋忓樊鍥涳細</strong>"鐜板湪瀛︽潵涓嶅強浜?鈥斺€擜I宸ュ叿鐨勫涔犳洸绾挎瘮浼犵粺缂栫▼骞崇紦寰楀銆?/p>
+</div>
+
+<div class="section" id="ch9">
+<h2 class="section-title"><span class="num">09</span> 绐佸洿璺緞涓庣瓥鐣ュ缓璁?/h2>
+<h3 class="section-subtitle">9.1 涓汉灞傞潰锛氭瀯寤?T鍨嬭兘鍔涚粨鏋?</h3>
+<div class="strategy-grid">
+<div class="strategy-card"><div class="icon">馃幆</div><h4>瀹氫綅AI+鏂囩浜ゅ弶璧涢亾</h4><p>AI鍐呭璐ㄦ帶銆佹暟鎹伐绋嬪笀銆丄I浼︾悊鍒嗘瀽甯堛€佹暟瀛椾汉鏂囥€佹櫤鎱ф暀鑲?/p></div>
+<div class="strategy-card"><div class="icon">馃敡</div><h4>鎺屾彙AI宸ュ叿鏍?/h4><p>GPT-5/Claude鐔熺粌浣跨敤+鎻愮ず璇嶅伐绋?AI缁樺浘+鍩虹Python鏁版嵁鍒嗘瀽</p></div>
+<div class="strategy-card"><div class="icon">馃寪</div><h4>鏋勫缓涓汉鏁板瓧鍝佺墝</h4><p>鍦ㄧ煡涔?鍏紬鍙疯緭鍑篈I+浜烘枃鍐呭锛岀Н绱涓氬奖鍝嶅姏</p></div>
+<div class="strategy-card"><div class="icon">馃</div><h4>鎷撳睍绀句細璧勬湰</h4><p>鍙備笌绾夸笂AI绀剧兢銆佸弬鍔犺涓氫細璁€佷富鍔ㄩ摼鎺ヨ涓氫汉澹?/p></div>
+</div>
+<h3 class="section-subtitle">9.2 鏁欒偛灞傞潰锛氭枃绉戞暀鑲茬殑"AI鍖栨敼閫?</h3>
+<div class="card card-teal"><p class="no-indent"><strong>灏咥I绱犲吇绾冲叆鏂囩蹇呬慨璇?/strong>鈥斺€旀墍鏈夋枃绉戠澹」鐩簲璁剧珛"AI宸ュ叿涓庡簲鐢?"鏁版嵁绱犲吇"蹇呬慨妯″潡銆?/p></div>
+<div class="card card-gold"><p class="no-indent"><strong>寤鸿"鏁板瓧浜烘枃"浜ゅ弶瀛︾</strong>鈥斺€旇绔嬫暟瀛椾汉鏂囥€佹櫤鎱ф硶娌汇€佹櫤鎱ф暀鑲茬瓑鏂版柟鍚戙€?/p></div>
+<div class="card card-purple"><p class="no-indent"><strong>寤虹珛"鏂囩+AI"瀹炰範鍩哄湴</strong>鈥斺€斾笌AI浼佷笟鍚堜綔涓烘枃绉戠敓鎻愪緵瀹炰範宀椾綅銆?/p></div>
+<div class="card card-red"><p class="no-indent"><strong>璁剧珛鍐滄潙鏂囩纭曞＋AI鎶€鑳芥彁鍗囦笓椤?/strong>鈥斺€旀彁渚涘瀛﹂噾鍜屽煿璁熀閲戙€?/p></div>
+<h3 class="section-subtitle">9.3 鏀跨瓥灞傞潰锛氬埗搴︽€т繚闅?/h3>
+<p>瀹屽杽涔℃潙鎸叴浜烘墠寮曡繘鏀跨瓥锛屾帹鍔ˋI绱犲吇鏁欒偛鏅儬鍖栵紝鏀归潻鐮旂┒鐢熷煿鍏绘満鍒讹紝寤虹珛鍏ㄥ浗鎬?鏂囩鐢烝I杞瀷鏀寔缃戠粶"銆?/p>
+<div class="chart-container"><div class="chart-title">鍥?锛氬啘鏉戞枃绉戠澹敓绐佸洿璺緞鐭╅樀</div><canvas id="chart7"></canvas><div class="chart-source">鐮旂┒璁捐</div></div>
+</div>
+
+<div class="section" id="ch10">
+<h2 class="section-title"><span class="num">10</span> 缁撹涓庡睍鏈?/h2>
+<div class="conclusion-box">
+<h3>鏍稿績缁撹</h3>
+<p><strong>绗竴锛?/strong>鍐滄潙鏂囩纭曞＋鐢熷浜?涓夐噸鎸ゅ帇"鐨勭粨鏋勬€у洶澧冧腑锛氭妧鏈浛浠ｉ闄┿€佷笓涓氳船鍊艰秼鍔裤€佽祫婧愮璧嬪姡鍔裤€?/p>
+<p><strong>绗簩锛?/strong>杩欎竴缇や綋鎷ユ湁鐙壒姣旇緝浼樺娍锛氬鍩哄眰绀句細鐨勬繁鍒荤悊瑙ｃ€佽法鏂囧寲娌熼€氱殑妗ユ浣滅敤銆佸皢浜烘枃浠峰€间笌鎶€鏈粨鍚堢殑鑳藉姏銆?/p>
+<p><strong>绗笁锛?/strong>鍏抽敭绐佸洿璺緞鍦ㄤ簬鏋勫缓"鏂囩涓撲笟搴曡暣 + AI宸ュ叿鑳藉姏 + 宸紓鍖栬禌閬?涓変綅涓€浣撶珵浜夊姏妯″瀷銆?/p>
+<p><strong>绗洓锛?/strong>鎴愬姛鐨勮浆鍨嬮渶瑕佷釜浜恒€佹暀鑲蹭綋绯诲拰鏀跨瓥灞傞潰鐨勫崗鍚屽姫鍔涖€?/p>
+<p><strong>绗簲锛?/strong>涔℃潙鎸叴鎴樼暐涓鸿繖涓€缇や綋鎻愪緵浜嗙嫭鐗圭殑"鍒跺害鎬х獥鍙?銆?/p>
+</div>
+<div class="quote"><p>鏁欒偛鐨勬湰璐ㄤ笉鏄～婊′竴妗舵按锛岃€屾槸鐐圭噧涓€鍥㈢伀銆傚湪AI鏃朵唬锛岃繖鍥㈢伀涓嶅啀鏄煡璇嗙殑鍌ㄥ锛岃€屾槸瀵规剰涔夌殑杩藉銆佸缇庡ソ鐨勬劅鐭ャ€佸鍏钩鐨勫畧鎶ゃ€傚啘鏉戞枃绉戠澹敓锛屾鏄繖涓椂浠ｆ渶闇€瑕佺殑閭ｇ兢"鐐圭伀鑰?鈥斺€斾粬浠粠鍦熷湴涓辈鍙栧姏閲忥紝鐢ㄤ汉鏂囩収浜妧鏈紝浠ヤ埂鏉戦摼鎺ユ湭鏉ャ€?/p><div class="author">鈥斺€?鏈爺绌剁粨璇?/div></div>
+</div>
+
+</div>
+
+<div class="footer">
+<p>浜哄伐鏅鸿兘鏃朵唬锛屽啘鏉戞枃绉戠澹爺绌剁敓璇ヤ綍鍘讳綍浠庯紵鈥斺€斾竴椤瑰熀浜庡缁磋瑙掔殑娣卞害鐮旂┒</p>
+<p>鐮旂┒瀹屾垚鏃ユ湡锛?026骞?鏈?| 鏁版嵁鎴锛?026骞?鏈?/p>
+</div>
+
+<script>
+window.addEventListener('scroll',()=>{const s=window.scrollY;const h=document.documentElement.scrollHeight-window.innerHeight;document.getElementById('progress-bar').style.width=(s/h*100)+'%'});
+const obs=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.1});
+document.querySelectorAll('.section').forEach(s=>obs.observe(s));
+const toc=document.getElementById('toc'),tocItems=['鎽樿','鑳屾櫙','鐢诲儚','鍐插嚮','楦挎矡','鍒跺害','鍥介檯','妗堜緥','鍥板','璺緞','缁撹'];
+document.querySelectorAll('.section[id]').forEach((s,i)=>{const a=document.createElement('a');a.href='#'+s.id;const sp=document.createElement('span');sp.className='tooltip';sp.textContent=tocItems[i]||s.id;a.appendChild(sp);toc.appendChild(a)});
+window.addEventListener('scroll',()=>{let cur='';document.querySelectorAll('.section[id]').forEach(s=>{if(window.scrollY>=s.offsetTop-200)cur=s.id});toc.querySelectorAll('a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur))});
+Chart.register(ChartDataLabels);
+'#8892b0'},grid:{color:'rgba(255,255,255,0.05)'}},x:{ticks:{color:'#8892b0'}}}});
+new Chart(document.getElementById('chart2'),{type:'radar',data:{labels:['985','211','涓€鏈?,'浜屾湰','鍦版柟'],datasets:[{label:'鍐滄潙鐢熸簮(%)',data:[32,38,45,55,65],borderColor:'#e94560',backgroundColor:'rgba(233,69,96,0.2)',pointBackgroundColor:'#e94560'},{label:'鏂囩鍗犳瘮(%)',data:[28,35,42,48,55],borderColor:'#f5a623',backgroundColor:'rgba(245,166,35,0.2)',pointBackgroundColor:'#f5a623'}]},options:{responsive:true,plugins:{legend:{labels:{color:'#ccc'}},datalabels:{display:false}},scales:{r:{angleLines:{color:'rgba(255,255,255,0.1)'},grid:{color:'rgba(255,255,255,0.1)'},pointLabels:{color:'#ccc'},ticks:{color:'#8892b0',backdropColor:'transparent'}}}}});
+new Chart(document.getElementById('chart3'),{type:'radar',data:{labels:['缈昏瘧','鏂伴椈','娉曞','浼氳','鏁欒偛','涓枃','鍙插摬','璁捐','绀句細瀛?,'鍏'],datasets:[{label:'AI鍙浛浠ｅ崰姣?%)',data:[85,75,60,80,40,55,25,78,30,45],borderColor:'#e94560',backgroundColor:'rgba(233,69,96,0.2)',pointBackgroundColor:'#e94560'}]},options:{responsive:true,plugins:{legend:{labels:{color:'#ccc'}},datalabels:{display:false}},scales:{r:{max:100,angleLines:{color:'rgba(255,255,255,0.1)'},grid:{color:'rgba(255,255,255,0.1)'},pointLabels:{color:'#ccc'},ticks:{color:'#8892b0',backdropColor:'transparent'}}}}});
+new Chart(document.getElementById('chart4'),{type:'bar',data:{labels:['浜掕仈缃戞櫘鍙婄巼','鏅鸿兘璁惧鐜?,'AI宸ュ叿浣跨敤鐜?,'鏁板瓧绱犲吇鍒?,'鍦ㄧ嚎瀛︿範鐜?],datasets:[{label:'鍩庨晣',data:[84.3,78.5,52.3,72,68],backgroundColor:'#e94560'},{label:'鍐滄潙',data:[66.5,52.1,28.7,48,41],backgroundColor:'#f5a623'}]},options:{responsive:true,plugins:{legend:{labels:{color:'#ccc'}},datalabels:{color:'#fff',anchor:'end',align:'end',font:{size:10}}},scales:{y:{beginAtZero:true,ticks:{color:'#8892b0'},grid:{color:'rgba(255,255,255,0.05)'}},x:{ticks:{color:'#8892b0'}}}}});
+new Chart(document.getElementById('chart5'),{type:'doughnut',data:{labels:['宸插紑AI蹇呬慨璇?,'宸插紑AI閫変慨璇?,'璁″垝寮€璁?,'鏃犺绋?],datasets:[{data:[18,25,35,22],backgroundColor:['#0f9b8e','#f5a623','#6c5ce7','#e94560'],borderWidth:0}]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{color:'#ccc',padding:12}},datalabels:{color:'#fff',font:{weight:'bold',size:14},formatter:v=>v+'%'}}}});
+new Chart(document.getElementById('chart6'),{type:'bar',data:{labels:['涓浗','缇庡浗','鏃ユ湰','鍗板害'],datasets:[{label:'AI璇剧▼瑕嗙洊鐜?%)',data:[18,65,52,28],backgroundColor:'#e94560'},{label:'鏂囩悊铻嶅悎椤圭洰(%)',data:[12,45,38,20],backgroundColor:'#f5a623'},{label:'鏀垮簻鎶曞叆(浜跨編鍏?',data:[45,120,35,15],backgroundColor:'#0f9b8e'}]},options:{responsive:true,plugins:{legend:{labels:{color:'#ccc'}},datalabels:{color:'#fff',anchor:'end',align:'end',font:{size:9}}},scales:{y:{beginAtZero:true,ticks:{color:'#8892b0'},grid:{color:'rgba(255,255,255,0.05)'}},x:{ticks:{color:'#8892b0'}}}}});
+new Chart(document.getElementById('chart7'),{type:'polarArea',data:{labels:['AI宸ュ叿','鏂囩搴曡暣','宸紓鍖栬禌閬?,'绀句細璧勬湰','鏀跨瓥鏀寔','缁堣韩瀛︿範'],datasets:[{data:[85,90,75,50,70,80],backgroundColor:['rgba(233,69,96,0.7)','rgba(245,166,35,0.7)','rgba(15,155,142,0.7)','rgba(108,92,231,0.7)','rgba(0,180,216,0.7)','rgba(255,154,0,0.7)']}]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{color:'#ccc',padding:10}},datalabels:{color:'#fff',font:{weight:'bold'},formatter:v=>v+'鍒?}},scales:{r:{ticks:{color:'#8892b0',backdropColor:'transparent'}}}}});
+</script>
+</body>
+</html>
