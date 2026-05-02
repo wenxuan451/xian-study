@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>诗·缘 | 中国最美古诗词 × 小说短剧计划</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+:root{--primary:#0a0a1a;--card:#1a1a35;--accent:#e8c4a8;--gold:#d4a574;--jade:#7bc5ae;--ink:#c8c8d0;--text:#e0dcd0;--muted:#8a8a9a;--g1:#e8c4a8;--g2:#d4a574;--g3:#7bc5ae;--g4:#a88dc8;--g5:#c8a8d4}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"PingFang SC","Noto Serif SC",serif;background:var(--primary);color:var(--text);line-height:2;overflow-x:hidden}
+#progress-bar{position:fixed;top:0;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--g1),var(--g3));z-index:9999;transition:width 0.3s}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2rem;position:relative;background:linear-gradient(135deg,#0a0a1a,#1a1a35,#0a0a1a)}
+.hero h1{font-size:clamp(2rem,6vw,4rem);font-weight:300;letter-spacing:0.5rem;background:linear-gradient(135deg,#e8c4a8,#d4a574);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero .subtitle{font-size:clamp(0.9rem,1.5vw,1.1rem);color:var(--muted);margin-top:1.5rem;max-width:600px;letter-spacing:0.2rem}
+.poem-line{font-size:clamp(1.2rem,2.5vw,1.8rem);color:var(--g1);font-style:italic;margin:1rem 0;opacity:0.8;letter-spacing:0.15rem}
+.container{max-width:800px;margin:0 auto;padding:2rem 1.5rem}
+.section{padding:3rem 0;opacity:0;transform:translateY(20px);transition:all 0.6s ease-out}
+.section.visible{opacity:1;transform:translateY(0)}
+.chapter-title{font-size:clamp(1.3rem,2.5vw,1.8rem);color:var(--g1);margin-bottom:2rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(232,196,168,0.2);letter-spacing:0.3rem;font-weight:300}
+.sub-chapter{font-size:1.1rem;color:var(--g2);margin:2rem 0 1rem;font-weight:400;letter-spacing:0.1rem}
+.poem-card{background:rgba(26,26,53,0.6);border:1px solid rgba(212,165,116,0.15);border-radius:8px;padding:1.8rem;margin:1.5rem 0;position:relative}
+.poem-card::before{content:'"';position:absolute;top:-0.3rem;left:0.8rem;font-size:3rem;color:var(--g2);opacity:0.3;font-family:Georgia,serif}
+.poem-title{color:var(--g1);font-size:1.1rem;margin-bottom:0.3rem;letter-spacing:0.1rem}
+.poem-author{color:var(--muted);font-size:0.85rem;margin-bottom:1rem}
+.poem-body{color:var(--text);line-height:2.2;font-size:1rem;text-align:center;letter-spacing:0.08rem}
+.poem-comment{color:var(--muted);font-size:0.85rem;margin-top:1rem;font-style:italic;border-top:1px solid rgba(255,255,255,0.05);padding-top:0.8rem}
+.novel-text{text-indent:2em;margin-bottom:1.2rem;line-height:2.2}
+.novel-text.no-indent{text-indent:0}
+.novel-poem{text-align:center;margin:2rem 0;color:var(--g1);line-height:2.2;font-size:1rem;letter-spacing:0.08rem}
+.quote{background:rgba(212,165,116,0.06);border-left:3px solid var(--g2);padding:1rem 1.2rem;margin:1.5rem 0;font-style:italic;color:var(--muted)}
+.episode-card{background:var(--card);border-radius:8px;padding:1.5rem;margin:1rem 0;border-left:3px solid}
+.episode-card .ep-title{color:var(--g1);margin-bottom:0.5rem;font-size:1rem}
+.episode-card .ep-poem{color:var(--g2);font-size:0.9rem;margin-bottom:0.5rem}
+.episode-card .ep-desc{color:var(--muted);font-size:0.9rem}
+.footer{text-align:center;padding:3rem 1rem;color:var(--muted);border-top:1px solid rgba(255,255,255,0.05);font-size:0.85rem}
+.toc{position:fixed;top:50%;right:0.5rem;transform:translateY(-50%);z-index:100;display:flex;flex-direction:column;gap:0.3rem}
+.toc a{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.15);transition:all 0.3s}
+.toc a.active{background:var(--g1);transform:scale(1.5)}
+.bamboo-divider{text-align:center;color:var(--muted);margin:3rem 0;font-size:0.8rem;letter-spacing:1rem}@media(max-width:768px){.toc{display:none}.container{padding:1rem}}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<nav class="toc" id="toc"></nav>
+<section class="hero">
+<h1>诗 · 缘</h1>
+<p class="poem-line">此情可待成追忆，只是当时已惘然</p>
+<p class="subtitle">中国最美古诗词精选 × 原创小说 × AI短剧计划</p>
+<div class="meta" style="margin-top:2rem;display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;color:var(--muted);font-size:0.85rem">
+<span>📜 25首传世经典</span><span>✍️ 原创小说</span><span>🎬 AI短剧企划</span>
+</div>
+<div style="position:absolute;bottom:2rem;animation:bounce 2s infinite;color:var(--muted);font-size:1.2rem;cursor:pointer">↓ 向下滚动</div>
+</section>
+<div class="container">
+
+<div class="section" id="poems">
+<div class="chapter-title">卷一 · 诗词精选集</div>
+<p style="text-indent:2em;color:var(--muted);margin-bottom:2rem">从先秦到两宋，从诗经到纳兰词，我们在这浩如烟海的诗词长河中，选出最动人心魄的二十五首。它们或诉相思，或叹离愁，或咏志，或感怀——每一首都值得被写进故事里。</p>
+<div class="sub-chapter">一 · 此情可待成追忆</div><p style="color:var(--muted);font-size:0.85rem;margin-bottom:1rem">情之所至，生死相许。这些诗词写尽了人世间最极致的情感。</p>
+<div class="poem-card"><div class="poem-title">无题·相见时难别亦难</div><div class="poem-author">李商隐·唐</div><div class="poem-body">相见时难别亦难，东风无力百花残。<br>春蚕到死丝方尽，蜡炬成灰泪始干。<br>晓镜但愁云鬓改，夜吟应觉月光寒。<br>蓬山此去无多路，青鸟殷勤为探看。</div><div class="poem-comment">💭 主人最爱的李商隐。'春蚕到死丝方尽'——写尽了至死不渝的深情。每一颗热恋的心，都曾如此这般地燃烧过。</div></div>
+<div class="poem-card"><div class="poem-title">锦瑟</div><div class="poem-author">李商隐·唐</div><div class="poem-body">锦瑟无端五十弦，一弦一柱思华年。<br>庄生晓梦迷蝴蝶，望帝春心托杜鹃。<br>沧海月明珠有泪，蓝田日暖玉生烟。<br>此情可待成追忆，只是当时已惘然。</div><div class="poem-comment">💭 '此情可待成追忆，只是当时已惘然'——这是整部中国诗词史上最令人心碎的一句。发生在当下时浑然不觉，回首时已成一生遗憾。</div></div>
+<div class="poem-card"><div class="poem-title">江城子·乙卯正月二十日夜记梦</div><div class="poem-author">苏轼·宋</div><div class="poem-body">十年生死两茫茫，不思量，自难忘。<br>千里孤坟，无处话凄凉。<br>纵使相逢应不识，尘满面，鬓如霜。<br><br>夜来幽梦忽还乡，小轩窗，正梳妆。<br>相顾无言，惟有泪千行。<br>料得年年肠断处，明月夜，短松冈。</div><div class="poem-comment">💭 苏轼写给亡妻王弗的悼亡词，字字血泪。'不思量，自难忘'——真正的刻骨铭心，从来不需要刻意想起。</div></div>
+<div class="poem-card"><div class="poem-title">摸鱼儿·雁丘词</div><div class="poem-author">元好问·金</div><div class="poem-body">问世间情是何物，直教生死相许？<br>天南地北双飞客，老翅几回寒暑。<br>欢乐趣，离别苦，就中更有痴儿女。<br>君应有语：渺万里层云，千山暮雪，只影向谁去？</div><div class="poem-comment">💭 元好问15岁时见一猎雁者射杀一只大雁，其伴侣悲鸣投地而死。震撼之余写下此词——连禽鸟都知生死相许，何况人乎？</div></div>
+<div class="poem-card"><div class="poem-title">木兰花令·拟古决绝词</div><div class="poem-author">纳兰性德·清</div><div class="poem-body">人生若只如初见，何事秋风悲画扇。<br>等闲变却故人心，却道故人心易变。<br>骊山语罢清宵半，泪雨霖铃终不怨。<br>何如薄幸锦衣郎，比翼连枝当日愿。</div><div class="poem-comment">💭 '人生若只如初见'——这句话击中了多少人的心。所有的故事都有美好的开头，但不是所有故事都有圆满的结局。</div></div>
+
+<div class="sub-chapter">二 · 但愿人长久</div><p style="color:var(--muted);font-size:0.85rem;margin-bottom:1rem">对月当歌，把酒言欢。这些诗词里有中国文人的豪情与旷达。</p>
+<div class="poem-card"><div class="poem-title">水调歌头·明月几时有</div><div class="poem-author">苏轼·宋</div><div class="poem-body">明月几时有？把酒问青天。<br>不知天上宫阙，今夕是何年。<br>我欲乘风归去，又恐琼楼玉宇，高处不胜寒。<br>起舞弄清影，何似在人间。<br><br>转朱阁，低绮户，照无眠。<br>不应有恨，何事长向别时圆？<br>人有悲欢离合，月有阴晴圆缺，此事古难全。<br>但愿人长久，千里共婵娟。</div><div class="poem-comment">💭 中秋词之绝唱。'但愿人长久，千里共婵娟'——写给天下所有不能团聚的人。宋神宗读后感叹：'苏轼终是爱君。'</div></div>
+<div class="poem-card"><div class="poem-title">将进酒</div><div class="poem-author">李白·唐</div><div class="poem-body">君不见黄河之水天上来，奔流到海不复回。<br>君不见高堂明镜悲白发，朝如青丝暮成雪。<br>人生得意须尽欢，莫使金樽空对月。<br>天生我材必有用，千金散尽还复来。<br>烹羊宰牛且为乐，会须一饮三百杯。<br>岑夫子，丹丘生，将进酒，杯莫停。<br>与君歌一曲，请君为我倾耳听。<br>钟鼓馔玉不足贵，但愿长醉不愿醒。<br>古来圣贤皆寂寞，惟有饮者留其名。</div><div class="poem-comment">💭 '天生我材必有用'——这是中国诗词史上最狂傲、最自信的一句。李白的豪情，千年之后依然令人热血沸腾。</div></div>
+<div class="poem-card"><div class="poem-title">定风波</div><div class="poem-author">苏轼·宋</div><div class="poem-body">莫听穿林打叶声，何妨吟啸且徐行。<br>竹杖芒鞋轻胜马，谁怕？一蓑烟雨任平生。<br><br>料峭春风吹酒醒，微冷，山头斜照却相迎。<br>回首向来萧瑟处，归去，也无风雨也无晴。</div><div class="poem-comment">💭 苏轼被贬黄州后的作品。'也无风雨也无晴'——这是中国文人能到达的最高境界：不是战胜苦难，而是超越悲喜。</div></div>
+<div class="poem-card"><div class="poem-title">行路难</div><div class="poem-author">李白·唐</div><div class="poem-body">金樽清酒斗十千，玉盘珍羞直万钱。<br>停杯投箸不能食，拔剑四顾心茫然。<br>欲渡黄河冰塞川，将登太行雪满山。<br>闲来垂钓碧溪上，忽复乘舟梦日边。<br>行路难，行路难，多歧路，今安在？<br>长风破浪会有时，直挂云帆济沧海。</div><div class="poem-comment">💭 '长风破浪会有时'——李白在人生最低谷写下了最豪迈的诗。他告诉我们：再怎么难走的路，也要相信前方有光。</div></div>
+<div class="poem-card"><div class="poem-title">临江仙·滚滚长江东逝水</div><div class="poem-author">杨慎·明</div><div class="poem-body">滚滚长江东逝水，浪花淘尽英雄。<br>是非成败转头空。<br>青山依旧在，几度夕阳红。<br><br>白发渔樵江渚上，惯看秋月春风。<br>一壶浊酒喜相逢。<br>古今多少事，都付笑谈中。</div><div class="poem-comment">💭 杨慎因'大礼议'被贬云南，一生不得志。但这首词却写尽了历史的苍凉与超然——'古今多少事，都付笑谈中'。</div></div>
+
+<div class="sub-chapter">三 · 人比黄花瘦</div><p style="color:var(--muted);font-size:0.85rem;margin-bottom:1rem">婉约之词，细腻入骨。这些诗词写尽了离愁别绪和人间悲欢。</p>
+<div class="poem-card"><div class="poem-title">声声慢</div><div class="poem-author">李清照·宋</div><div class="poem-body">寻寻觅觅，冷冷清清，凄凄惨惨戚戚。<br>乍暖还寒时候，最难将息。<br>三杯两盏淡酒，怎敌他、晚来风急？<br>雁过也，正伤心，却是旧时相识。<br><br>满地黄花堆积，憔悴损，如今有谁堪摘？<br>守着窗儿，独自怎生得黑？<br>梧桐更兼细雨，到黄昏、点点滴滴。<br>这次第，怎一个愁字了得！</div><div class="poem-comment">💭 李清照南渡后的绝唱。开头十四叠字，前无古人后无来者。一个'愁'字，哪里装得下她失去爱人、家国破碎的全部伤痛。</div></div>
+<div class="poem-card"><div class="poem-title">一剪梅</div><div class="poem-author">李清照·宋</div><div class="poem-body">红藕香残玉簟秋。<br>轻解罗裳，独上兰舟。<br>云中谁寄锦书来，<br>雁字回时，月满西楼。<br><br>花自飘零水自流。<br>一种相思，两处闲愁。<br>此情无计可消除，<br>才下眉头，却上心头。</div><div class="poem-comment">💭 '此情无计可消除，才下眉头，却上心头'——相思是一种病，中医治不了，只有那个人能治。李清照写思念，无人能出其右。</div></div>
+<div class="poem-card"><div class="poem-title">雨霖铃</div><div class="poem-author">柳永·宋</div><div class="poem-body">寒蝉凄切，对长亭晚，骤雨初歇。<br>都门帐饮无绪，留恋处，兰舟催发。<br>执手相看泪眼，竟无语凝噎。<br>念去去，千里烟波，暮霭沉沉楚天阔。<br><br>多情自古伤离别，更那堪，冷落清秋节！<br>今宵酒醒何处？杨柳岸，晓风残月。<br>此去经年，应是良辰好景虚设。<br>便纵有千种风情，更与何人说？</div><div class="poem-comment">💭 柳永是宋朝最懂离别的词人。'执手相看泪眼，竟无语凝噎'——真正的离别，是说不出一句话的。</div></div>
+<div class="poem-card"><div class="poem-title">蝶恋花</div><div class="poem-author">柳永·宋</div><div class="poem-body">伫倚危楼风细细，望极春愁，黯黯生天际。<br>草色烟光残照里，无言谁会凭阑意。<br><br>拟把疏狂图一醉，对酒当歌，强乐还无味。<br>衣带渐宽终不悔，为伊消得人憔悴。</div><div class="poem-comment">💭 '衣带渐宽终不悔'——王国维先生将此句视为古今成大事业者的第二重境界。但首先，这是一个爱到骨子里的人，写给那个人的誓言。</div></div>
+<div class="poem-card"><div class="poem-title">鹊桥仙</div><div class="poem-author">秦观·宋</div><div class="poem-body">纤云弄巧，飞星传恨，银汉迢迢暗度。<br>金风玉露一相逢，便胜却人间无数。<br><br>柔情似水，佳期如梦，忍顾鹊桥归路。<br>两情若是久长时，又岂在朝朝暮暮。</div><div class="poem-comment">💭 '两情若是久长时，又岂在朝朝暮暮'——世界上最好的异地恋宣言。秦观用天上的牛郎织女，安慰了地下多少痴情人。</div></div>
+
+<div class="sub-chapter">四 · 山河表里</div><p style="color:var(--muted);font-size:0.85rem;margin-bottom:1rem">家国天下，壮志未酬。这些诗词里有文人的担当与风骨。</p>
+<div class="poem-card"><div class="poem-title">春望</div><div class="poem-author">杜甫·唐</div><div class="poem-body">国破山河在，城春草木深。<br>感时花溅泪，恨别鸟惊心。<br>烽火连三月，家书抵万金。<br>白头搔更短，浑欲不胜簪。</div><div class="poem-comment">💭 安史之乱中，杜甫被俘困在长安。见到花开却流泪，听到鸟鸣却惊心——'感时花溅泪，恨别鸟惊心'，把家国之痛写到了极致。</div></div>
+<div class="poem-card"><div class="poem-title">茅屋为秋风所破歌</div><div class="poem-author">杜甫·唐</div><div class="poem-body">八月秋高风怒号，卷我屋上三重茅。<br>茅飞渡江洒江郊，高者挂罥长林梢，下者飘转沉塘坳。<br>……安得广厦千万间，大庇天下寒士俱欢颜，风雨不动安如山！<br>呜呼！何时眼前突兀见此屋，吾庐独破受冻死亦足！</div><div class="poem-comment">💭 自己住着漏雨的破房子，却想着'安得广厦千万间，大庇天下寒士俱欢颜'。这就是杜甫——中国最伟大的'人民的诗人'。</div></div>
+<div class="poem-card"><div class="poem-title">满江红</div><div class="poem-author">岳飞·宋</div><div class="poem-body">怒发冲冠，凭栏处、潇潇雨歇。<br>抬望眼、仰天长啸，壮怀激烈。<br>三十功名尘与土，八千里路云和月。<br>莫等闲、白了少年头，空悲切。<br><br>靖康耻，犹未雪。臣子恨，何时灭。<br>驾长车，踏破贺兰山缺。<br>壮志饥餐胡虏肉，笑谈渴饮匈奴血。<br>待从头、收拾旧山河，朝天阙。</div><div class="poem-comment">💭 一首用血写的词。岳飞最终被冤杀于风波亭，但他的'待从头、收拾旧山河'，激励了此后八百年的中国人。</div></div>
+<div class="poem-card"><div class="poem-title">破阵子·为陈同甫赋壮词以寄之</div><div class="poem-author">辛弃疾·宋</div><div class="poem-body">醉里挑灯看剑，梦回吹角连营。<br>八百里分麾下炙，五十弦翻塞外声，沙场秋点兵。<br><br>马作的卢飞快，弓如霹雳弦惊。<br>了却君王天下事，赢得生前身后名。<br>可怜白发生！</div><div class="poem-comment">💭 '可怜白发生'——五个字把所有的豪情壮志都打碎了。辛弃疾一生想收复中原，却只能在醉梦中挑灯看剑。</div></div>
+<div class="poem-card"><div class="poem-title">己亥杂诗·其五</div><div class="poem-author">龚自珍·清</div><div class="poem-body">浩荡离愁白日斜，吟鞭东指即天涯。<br>落红不是无情物，化作春泥更护花。</div><div class="poem-comment">💭 '落红不是无情物，化作春泥更护花'——龚自珍辞官南归，在离别的路上写下这千古名句。即使离开，也要化作春泥，继续守护这片土地。</div></div>
+
+<div class="sub-chapter">五 · 山水有清音</div><p style="color:var(--muted);font-size:0.85rem;margin-bottom:1rem">空山新雨，禅意人生。这些诗词里有中国人向往的田园与山水。</p>
+<div class="poem-card"><div class="poem-title">山居秋暝</div><div class="poem-author">王维·唐</div><div class="poem-body">空山新雨后，天气晚来秋。<br>明月松间照，清泉石上流。<br>竹喧归浣女，莲动下渔舟。<br>随意春芳歇，王孙自可留。</div><div class="poem-comment">💭 王维被称为'诗佛'。'明月松间照，清泉石上流'——仅仅十个字，就在你眼前展开了一幅画，耳朵里响起了水声。</div></div>
+<div class="poem-card"><div class="poem-title">江雪</div><div class="poem-author">柳宗元·唐</div><div class="poem-body">千山鸟飞绝，万径人踪灭。<br>孤舟蓑笠翁，独钓寒江雪。</div><div class="poem-comment">💭 被贬永州的柳宗元，用二十个字画出了中国文学史上最孤独的画面。'独钓寒江雪'——不是钓鱼，是钓的孤独本身。</div></div>
+<div class="poem-card"><div class="poem-title">黄鹤楼送孟浩然之广陵</div><div class="poem-author">李白·唐</div><div class="poem-body">故人西辞黄鹤楼，烟花三月下扬州。<br>孤帆远影碧空尽，唯见长江天际流。</div><div class="poem-comment">💭 最好的送别诗。李白站在黄鹤楼上，看着孟浩然的船越走越远，直到消失在天地尽头。没有悲伤的话，但每一句都充满了不舍。</div></div>
+<div class="poem-card"><div class="poem-title">饮酒·其五</div><div class="poem-author">陶渊明·东晋</div><div class="poem-body">结庐在人境，而无车马喧。<br>问君何能尔？心远地自偏。<br>采菊东篱下，悠然见南山。<br>山气日夕佳，飞鸟相与还。<br>此中有真意，欲辨已忘言。</div><div class="poem-comment">💭 '采菊东篱下，悠然见南山'——中国士大夫心中永远的田园梦。陶渊明告诉我们：真正的自由，不在远方，在内心深处。</div></div>
+<div class="poem-card"><div class="poem-title">相思</div><div class="poem-author">王维·唐</div><div class="poem-body">红豆生南国，春来发几枝。<br>愿君多采撷，此物最相思。</div><div class="poem-comment">💭 最简短的诗，最深的相思。王维此诗原题为《江上赠李龟年》，是写给一位音乐家朋友的。但后来红豆成了爱情的象征——一首关于友谊的诗，成了中国最著名的情诗。</div></div>
+
+<div class="section" id="drama">
+<div class="chapter-title">卷二 · AI短剧企划</div>
+<p style="text-indent:2em;color:var(--muted);margin-bottom:2rem">将这二十五首最美诗词改编为八个短剧单元，每单元聚焦一个主题，时长8-12分钟，可用AI视频工具（Seedance等）制作。以下为企划方案：</p>
+<div class="episode-card" style="border-color:var(--g1)"><div class="ep-title">第一集 · 春蚕</div><div class="ep-poem">📜 李商隐《无题》</div><div class="ep-desc">一个现代诗人通过一首未完成的古诗，与唐朝的诗人产生了跨越时空的连接。当她吟出'春蚕到死丝方尽'时，她不知道，这首诗正在改变另一个时空的命运……</div></div>
+<div class="episode-card" style="border-color:var(--g1)"><div class="ep-title">第二集 · 锦瑟</div><div class="ep-poem">📜 李商隐《锦瑟》</div><div class="ep-desc">一位老人临终前交给孙女一本没有写完的旧诗集。孙女在整理时发现，每一首诗背后都藏着一场五十年前的未了之缘。'此情可待成追忆'——她能否找到那个一直在等的人？</div></div>
+<div class="episode-card" style="border-color:var(--g2)"><div class="ep-title">第三集 · 明月</div><div class="ep-poem">📜 苏轼《水调歌头》</div><div class="ep-desc">中秋节前夕，一对因误解分开的恋人同时对着月亮发呆。'人有悲欢离合，月有阴晴圆缺'——他们在不同的城市，做了同一个梦。</div></div>
+<div class="episode-card" style="border-color:var(--g3)"><div class="ep-title">第四集 · 寻寻觅觅</div><div class="ep-poem">📜 李清照《声声慢》</div><div class="ep-desc">失去丈夫的南宋女词人李清照的魂魄，穿越到现代一个失去爱人的女孩身边。两代人的伤痛，在'寻寻觅觅，冷冷清清'中找到了共鸣。</div></div>
+<div class="episode-card" style="border-color:var(--g2)"><div class="ep-title">第五集 · 将进酒</div><div class="ep-poem">📜 李白《将进酒》</div><div class="ep-desc">一个在创业中屡战屡败的年轻人，在一家小酒馆里遇到了一位神秘的老者。老者教他背《将进酒》，告诉他'天生我材必有用'——天亮之后，老者消失在晨光中，桌上留着一壶酒。</div></div>
+<div class="episode-card" style="border-color:var(--g3)"><div class="ep-title">第六集 · 十年生死</div><div class="ep-poem">📜 苏轼《江城子》</div><div class="ep-desc">一个常年在外工作的程序员，在妻子去世十年后，用AI重建了她的影像。当AI对他背诵'十年生死两茫茫'时，他发现自己根本无法承受这重逢的虚幻。</div></div>
+<div class="episode-card" style="border-color:var(--g4)"><div class="ep-title">第七集 · 山河</div><div class="ep-poem">📜 岳飞《满江红》+ 杜甫《春望》</div><div class="ep-desc">一个海外留学生在异国他乡被一首《满江红》触动，开始追寻家族在抗战中的往事。当'待从头、收拾旧山河'响起的瞬间，她终于明白了'祖国'的意义。</div></div>
+<div class="episode-card" style="border-color:var(--g1)"><div class="ep-title">第八集 · 人生若只如初见</div><div class="ep-poem">📜 纳兰性德《木兰花令》</div><div class="ep-desc">一对新婚夫妇，婚后三年感情渐淡。妻子偶然翻开纳兰词，读到'人生若只如初见'，决定为婚姻做最后一次努力——她要带丈夫重新走一遍他们相遇的地方。</div></div>
+</div>
+
+<div class="section" id="novel">
+<div class="chapter-title">卷三 · 小说《诗·缘》第一章</div>
+<p class="novel-text no-indent" style="color:var(--g2);text-align:center;margin-bottom:2rem;font-size:0.9rem">——此情可待成追忆，只是当时已惘然——</p>
+<p class="novel-text">金陵的秋，来得格外安静。</p>
+<p class="novel-text">苏晚宁把最后一箱书搬回老宅的时候，院子里那棵老桂花开得正好，满院都是甜得发腻的香气。她在门槛上坐了很久，看着夕阳把青砖墙染成蜂蜜的颜色，忽然想起七岁那年，外婆牵着她的手坐在这里，一字一句地教她背《锦瑟》。</p>
+<p class="novel-text">"晚宁啊，你长大了就会明白——"外婆的声音轻得像秋天的落叶，"这世上最苦的事，不是得不到，而是得到了，却不知道那是自己一生最珍贵的东西。"</p>
+<p class="novel-text">那时候她不懂。现在她懂了，却也晚了。</p>
+<p class="novel-text">外婆在一个月前走了。九十岁，走得安详。苏晚宁从北京赶回来奔丧，在处理遗物时发现了一个上了锁的红木盒子。打开之后，里面没有金银首饰，只有一本手抄的诗词集。</p>
+<p class="novel-text">"《诗·缘》——陆云深手录。"</p>
+<p class="novel-text">她从来没有听说过这个名字。外婆一生未再嫁。苏晚宁从小就知道，外公在母亲很小的时候就去世了，外婆一个人把母亲拉扯大。但这个陆云深是谁？</p>
+<p class="novel-text">她翻开第一页，笔迹俊逸清瘦，像是用极细的狼毫小楷一笔一画写成的。字体有种说不出的疏离感——那是繁体字，而且是竖排的，从右往左读。</p>
+<div class="novel-poem">锦瑟无端五十弦，一弦一柱思华年。<br>庄生晓梦迷蝴蝶，望帝春心托杜鹃。<br>沧海月明珠有泪，蓝田日暖玉生烟。<br>此情可待成追忆，只是当时已惘然。</div>
+<p class="novel-text">她愣住了。</p>
+<p class="novel-text">不是因为这首诗——她从小就会背。而是因为在这首《锦瑟》下面，有一行淡得几乎看不清的小字：</p>
+<p class="novel-text" style="color:var(--g2);text-align:center;font-style:italic">"余与薛氏晚宁识于甲申年秋。彼时桂花正盛，月色如银。伊人诵此诗至'只是当时已惘然'，余心恸不能自已。遂手录全册，以为他年之念。"</p>
+<p class="novel-text">薛晚宁。</p>
+<p class="novel-text">外婆的名字就叫薛晚宁。</p>
+<p class="novel-text">而苏晚宁的"晚宁"二字，正是外婆用自己的名字给她取的名。</p>
+<p class="novel-text">她继续翻下去。第二页是《无题》。</p>
+<div class="novel-poem">相见时难别亦难，东风无力百花残。<br>春蚕到死丝方尽，蜡炬成灰泪始干。</div>
+<p class="novel-text">下方又有一行字：</p>
+<p class="novel-text" style="color:var(--g2);text-align:center;font-style:italic">"此诗末句，恰是我与伊人的写照。丝方尽，泪始干——若我此生注定无法见到她，这丝这泪，便也要到死方休。"</p>
+<p class="novel-text">苏晚宁的心跳开始加速。她把盒子抱在怀里，也顾不上天已经黑了，就着老宅昏暗的灯，一页一页地翻下去。一页一页，一首一首。一共三十八首。每一首的下方都有陆云深的批注——有思念，有追忆，有叹息。那些文字隔着几十年的时光，像一封又一封从未寄出的信。</p>
+<p class="novel-text">——"昨夜梦见她坐在桂花树下，穿着藕荷色的旗袍。我想告诉她，我已经被释放了。但张了张嘴，什么也说不出来。"</p>
+<p class="novel-text">——"她大概已经嫁人了吧。这样也好。"</p>
+<p class="novel-text">——"写了这么多年的诗，到头来发现，所有的句子加起来，都不如那一年她对我笑了一下。"</p>
+<p class="novel-text">——"今天是她的生日。我用雨水写了她的名字。"</p>
+<p class="novel-text">苏晚宁的眼泪一滴一滴地落在泛黄的宣纸上，晕开了那些已经褪色的墨迹。她突然明白了外婆为什么一辈子独居——不是没有人爱她，而是她心里住着一个人，再容不下第二个了。</p>
+<p class="novel-text">最后一页，是一首没有署名的诗。</p>
+<div class="novel-poem">我生君未生，君生我已老。<br>我离君天涯，君隔我海角。<br>化蝶去寻花，夜夜栖芳草。<br>若得长相忆，何惧路迢迢。</div>
+<p class="novel-text">底下只有四个字：</p>
+<p class="novel-text" style="color:var(--g2);text-align:center;font-size:1.1rem">"晚宁，珍重。"</p>
+<p class="novel-text">苏晚宁合上诗集，抬头望向窗外。月亮不知道什么时候已经升起来了，清冷地挂在天边。院子里那棵桂花树在月光下静静地立着，像极了外婆常坐的那道身影。</p>
+<p class="novel-text">她忽然想起外婆临终前对她说的最后一句话——</p>
+<p class="novel-text">"晚宁，以后要是遇到一个让你甘愿浪费一生的人，别犹豫。一辈子太短了，没有那么多时间用来后悔。"</p>
+<div class="quote"><p>那时她以为外婆说的是外公。现在她才知道，外婆说的不是外公。外婆说的是一个叫陆云深的人，是一个她用尽一生去等、却终究没有等到的人。</p></div>
+<p class="novel-text">苏晚宁把诗集紧紧抱在胸前。窗外桂花簌簌落在青石板上，像是某种跨越时空的回响。她忽然想起那句诗的最后四个字——</p>
+<p class="novel-text" style="text-align:center;color:var(--g1);font-size:1.1rem;letter-spacing:0.15rem">只是当时已惘然。</p>
+<p class="novel-text">她关灯躺下的时候，月光透过窗棂洒落在诗集上，正照在那句"锦瑟无端五十弦"上。昏暗中，她隐约觉得那行字的下面，似乎还有一行更淡的字——淡到她在灯光下完全没有注意到。</p>
+<p class="novel-text">她猛地坐起来，重新打开灯。</p>
+<p class="novel-text">只见在"余与薛氏晚宁识于甲申年秋"那行字的下面，不知何时浮现出一弯几乎看不见的、用清水写成的字迹——</p>
+<p class="novel-text" style="text-align:center;color:var(--g2);font-size:1.05rem">"晚宁，你说若有来生，便做我案头的一枝桂花。可我等了三生三世，你都不曾来过。"</p>
+<p class="novel-text">——然后，在"晚宁"两个字的旁边，不知是谁，用极新鲜的墨迹加了一行字：</p>
+<p class="novel-text" style="text-align:center;color:var(--g1);font-style:italic;font-size:1.05rem">"我来过了。只是你已经不记得了。"</p>
+<p class="novel-text" style="text-align:center;margin-top:2rem;color:var(--muted);font-size:0.9rem">——第一章完——</p>
+</div>
+
+<div class="footer">
+<p>诗·缘 | 中国最美古诗词精选 × 原创小说 × AI短剧计划</p>
+<p>2026年5月 | 原创小说 · 诗词诠释均为原创</p>
+<p>📜 特别致敬：李商隐、苏轼、李清照、李白、王维、辛弃疾——中国最伟大的诗人们</p>
+</div>
+
+<script>
+window.addEventListener("scroll",()=>{const s=window.scrollY,h=document.documentElement.scrollHeight-window.innerHeight;document.getElementById("progress-bar").style.width=(s/h*100)+"%"});
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add("visible")})},{threshold:0.1});
+document.querySelectorAll(".section").forEach(s=>obs.observe(s));
+document.querySelectorAll(".toc a").forEach(a=>{a.addEventListener("click",e=>{e.preventDefault();const t=document.getElementById(a.getAttribute("href").slice(1));if(t)t.scrollIntoView({behavior:"smooth"})})});
+["诗词精选","短剧企划","小说开篇"].forEach((t,i)=>{const s=document.querySelectorAll(".section[id]")[i];if(s){const a=document.createElement("a");a.href="#"+s.id;a.title=t;a.textContent=" ";document.getElementById("toc").appendChild(a)}});
+window.addEventListener("scroll",()=>{let cur="";document.querySelectorAll(".section[id]").forEach(s=>{if(window.scrollY>=s.offsetTop-200)cur=s.id});document.querySelectorAll(".toc a").forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+cur))});
+</script>
+</body>
+</html>
